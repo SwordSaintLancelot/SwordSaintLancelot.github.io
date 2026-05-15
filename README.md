@@ -45,9 +45,3 @@ Edit `data.yaml` → re-run `python build.py` → refresh.
 2. In GitHub repo settings, under **Pages**, set **Source = GitHub Actions**.
 3. The workflow builds and deploys automatically. Site goes live at
    `https://swordsaintlancelot.github.io/`.
-
-## TODO before going live
-
-- Replace `#` placeholder URLs in `data.yaml` with real Google Scholar / paper / HuggingFace links.
-- Add `static/resume.pdf` and uncomment `resume_pdf:` in `data.yaml`.
-- Add a headshot at `static/images/profile.jpg` (templates will need a small tweak to display it).

@@ -1,0 +1,19 @@
+<section id="projects">
+  <h2>Selected Projects</h2>
+  {% for p in projects %}
+  <article class="project">
+    <h3>{{ p.name }}</h3>
+    <p>{{ p.blurb }}</p>
+    {% if p.tags %}
+    <p class="tags">
+      {% for t in p.tags %}<span>{{ t }}</span>{% endfor %}
+    </p>
+    {% endif %}
+    {% if p.links %}
+    <ul class="inline-links">
+      {% for l in p.links %}<li><a href="{{ l.url }}">{{ l.label }}</a></li>{% endfor %}
+    </ul>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>

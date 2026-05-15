@@ -1,0 +1,16 @@
+<section id="publications">
+  <h2>Publications</h2>
+  <ul class="entries">
+    {% for pub in publications %}
+    <li>
+      <p class="title">{{ pub.title }}</p>
+      <p class="meta">{{ pub.venue }}{% if pub.year %} &middot; {{ pub.year }}{% endif %}</p>
+      {% if pub.links %}
+      <ul class="inline-links">
+        {% for l in pub.links %}<li><a href="{{ l.url }}">{{ l.label }}</a></li>{% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>

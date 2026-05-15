@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ profile.name }} — {{ profile.title }}</title>
+  <meta name="description" content="{{ profile.tagline }}">
+  <meta property="og:title" content="{{ profile.name }} — {{ profile.title }}">
+  <meta property="og:description" content="{{ profile.tagline }}">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <p>&copy; {{ profile.name }}. Built with Python &amp; Jinja2.</p>
+  </footer>
+</body>
+</html>

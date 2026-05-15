@@ -1,0 +1,14 @@
+{% if talks %}
+<section id="talks">
+  <h2>Talks &amp; Workshops</h2>
+  <ul class="entries">
+    {% for t in talks %}
+    <li>
+      <p class="title">{{ t.title }}</p>
+      <p class="meta">{{ t.venue }}{% if t.year %} &middot; {{ t.year }}{% endif %}</p>
+      {% if t.description %}<p>{{ t.description }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

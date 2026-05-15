@@ -1,0 +1,25 @@
+<section id="experience">
+  <h2>Experience</h2>
+  {% for job in experience %}
+  <article class="job">
+    <header>
+      <h3>{{ job.role }} &middot; {{ job.company }}</h3>
+      <p class="meta">{{ job.location }} &middot; {{ job.dates }}</p>
+    </header>
+    {% if job.projects %}
+      {% for proj in job.projects %}
+      <div class="subproject">
+        <h4>{{ proj.name }}</h4>
+        <ul>
+          {% for b in proj.bullets %}<li>{{ b }}</li>{% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    {% elif job.bullets %}
+    <ul>
+      {% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>

@@ -1,0 +1,9 @@
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Reach me at <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>.</p>
+  <ul class="inline-links">
+    {% for link in profile.links %}
+    <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+    {% endfor %}
+  </ul>
+</section>

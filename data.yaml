@@ -1,0 +1,180 @@
+# All site content lives here. Edit this file to update the site.
+# Re-run: python build.py
+
+profile:
+  name: Vishal Gaur
+  title: Computer Scientist
+  affiliation: NASA IMPACT
+  location: Tampere, Finland
+  tagline: Building generative AI and foundation models for Earth and space science.
+  email: vishalgaur2@gmail.com
+  links:
+    - { label: LinkedIn,        url: "https://linkedin.com/in/vishal-gaur" }
+    - { label: GitHub,          url: "https://github.com/SwordSaintLancelot" }
+    - { label: Google Scholar,  url: "#" }   # TODO: paste your Scholar URL
+    - { label: Email,           url: "mailto:vishalgaur2@gmail.com" }
+  # Drop a resume PDF at static/resume.pdf, then uncomment:
+  # resume_pdf: static/resume.pdf
+
+about: |
+  Computer Scientist with 5+ years building machine learning solutions
+  using generative AI in collaborative environments. Currently developing
+  transformer-based foundation models at NASA, with expertise in
+  end-to-end AI solution ownership — from data pipeline construction and
+  model training on HPC clusters to automated cloud deployment and
+  monitoring. I work across technical and business teams to turn complex
+  requirements into reliable AI systems, and I enjoy building automation
+  workflows, API-driven services, and reusable data engineering
+  components.
+
+skills:
+  - category: Languages
+    entries: [Python, SQL, "C#", "C++"]
+  - category: AI / ML Frameworks
+    entries: [PyTorch, Hugging Face, Transformers, scikit-learn, SciPy, chromaDB, pgvector, OpenCV, YOLO]
+  - category: Generative AI
+    entries:
+      - "Transformer models (encoder / decoder)"
+      - "Foundation model fine-tuning"
+      - "LoRA (parameter-efficient adaptation)"
+      - "LLMs and RAG systems"
+      - "Distributed training (DDP)"
+      - "Model quantization"
+  - category: Data & MLOps
+    entries: ["ML optimization", "MLOps", "STAC metadata pipelines"]
+  - category: Cloud & Infrastructure
+    entries: ["AWS (S3, EC2, Lambda, Athena, SageMaker)", "WandB", "Docker", "SLURM", "PBS"]
+  - category: APIs & Integration
+    entries: ["FastAPI", "RESTful services", "API Gateway", "Cloud-native service integration"]
+  - category: Platforms & Tools
+    entries: [Linux, macOS, QGIS, GitHub]
+  - category: Domains
+    entries: ["Foundation Models", "Computer Vision", "LLMs", "RAGs", "Intelligent Automation", "Recommendation Systems", "Geospatial Analytics", "Explainable AI"]
+
+experience:
+  - company: NASA IMPACT
+    role: Computer Scientist
+    location: Huntsville, AL, USA
+    dates: Feb 2023 – Present
+    projects:
+      - name: "Prithvi WxC — Weather & Climate Foundation Model"
+        bullets:
+          - "Designed and executed end-to-end data processing pipelines for petabyte-scale reanalysis time-series datasets, enabling reliable model training across isolated computing environments."
+          - "Applied LoRA-based parameter-efficient fine-tuning on pre-trained transformer backbones to create task-specific downstream models, reducing training cost while maintaining prediction quality."
+      - name: "Surya — Heliophysics Foundation Model"
+        bullets:
+          - "Led exploratory data analysis on multi-year solar image archives, identifying data quality issues and informing architecture choices for the generative model pipeline."
+          - "Trained and benchmarked multiple transformer architectures on NVIDIA DGX and NAS clusters, managing distributed workflows via SLURM and PBS schedulers."
+          - "Fine-tuned the foundation model using LoRA adapters and task-specific decoders to predict solar flares and solar wind; validated results alongside the science team."
+          - "Designed convolution-based baselines for solar prediction and solar wind prediction tasks."
+      - name: "Harmonized Landsat and Sentinel (HLS) Bandpass Research"
+        bullets:
+          - "Built a clean, reproducible dataset by aggregating imagery from multiple remote sensing sources, establishing standardized data preparation patterns reusable across teams."
+          - "Created deep learning model benchmarks and systematically evaluated performance across architectures, documenting best practices and methodology comparisons for broader team adoption."
+      - name: "US Greenhouse Gas Center"
+        bullets:
+          - "Automated end-to-end transformation pipelines converting geospatial data to Cloud-Optimized GeoTIFFs (COGs), eliminating manual processing steps."
+          - "Orchestrated data ingestion workflows using Apache Airflow and cataloged outputs into STAC-compliant metadata stores for scalable discovery."
+          - "Managed and monitored AWS cloud infrastructure (Lambda, API Gateway, EC2) supporting the platform backend. The project was presented at the White House and at COP28."
+
+  - company: Sanoma Media Finland Oy
+    role: Data Scientist
+    location: Helsinki, Finland
+    dates: Apr 2022 – Jan 2023
+    bullets:
+      - "Developed and deployed a production recommendation engine using ALS collaborative filtering within the Sanoma Unified Recommendation Framework, integrated directly with content delivery systems."
+      - "Collaborated with business stakeholders to identify automation and AI opportunities, translating real business needs into multiple ML proof-of-concept prototypes."
+      - "Refactored legacy Scala data pipelines into Python, creating reusable components that accelerated iteration for the data science team."
+      - "Performed large-scale exploratory data analysis on user engagement data across digital media platforms, surfacing actionable insights for editorial and product teams."
+
+  - company: Kone Corporation
+    role: Data Science Trainee
+    location: Espoo, Finland
+    dates: Jun 2021 – Sep 2021
+    bullets:
+      - "Analyzed IoT sensor telemetry from elevator and escalator systems to identify anomalies and patterns, delivering insights that improved device monitoring services."
+      - "Built and executed cloud-based data analysis workflows on AWS (Athena, S3, EC2) to process large-scale industrial sensor datasets."
+
+  - company: Nokia Technologies
+    role: Data Science Trainee — Thesis Worker
+    location: Espoo, Finland
+    dates: Jun 2019 – May 2021
+    bullets:
+      - "Owned the full AI solution lifecycle: built a novel annotated dataset for patent office actions, developed a text classification model, designed cloud architecture for deployment, and built a .NET desktop prototype for end-user access."
+      - "Delivered a production-ready cloud solution integrating the ML model as a service, demonstrating end-to-end ownership from data collection through deployment and monitoring."
+
+projects:
+  - name: "Prithvi WxC — Weather & Climate Foundation Model"
+    blurb: >
+      Transformer-based foundation model for weather and climate, developed
+      in collaboration with NASA, IBM, Oak Ridge National Laboratory, and
+      NVIDIA. Petabyte-scale data pipelines and LoRA-based downstream
+      fine-tuning.
+    tags: [Foundation Models, PyTorch, LoRA, HPC]
+    links:
+      - { label: Paper,        url: "#" }   # TODO
+      - { label: HuggingFace,  url: "#" }   # TODO
+
+  - name: "Surya — Heliophysics Foundation Model"
+    blurb: >
+      Co-developed a generative architecture trained on multi-year solar
+      image archives for solar flare and solar wind prediction. Distributed
+      training on NVIDIA DGX / NAS clusters via SLURM and PBS.
+    tags: [Foundation Models, Computer Vision, Distributed Training]
+    links:
+      - { label: Paper, url: "#" }   # TODO
+
+  - name: "US Greenhouse Gas Center"
+    blurb: >
+      Automated geospatial pipelines (Airflow + STAC + COGs) on AWS,
+      supporting a platform presented at the White House and COP28.
+    tags: [Geospatial, AWS, Airflow, STAC]
+    links:
+      - { label: Project, url: "#" }   # TODO
+
+  - name: "Sanoma Unified Recommendation Framework"
+    blurb: >
+      Production ALS collaborative-filtering recommender integrated with
+      content delivery across Sanoma's digital media platforms.
+    tags: [Recommender Systems, Python, Production ML]
+
+publications:
+  - title: "Prithvi WxC: Foundation Model for Weather and Climate"
+    venue: "Collaboration with NASA, IBM, Oak Ridge National Laboratory, NVIDIA"
+    links:
+      - { label: Paper, url: "#" }   # TODO
+
+  - title: "Surya: Foundation Model for Heliophysics"
+    venue: "Co-authored research on training large-scale generative architectures for solar physics applications"
+    links:
+      - { label: Paper, url: "#" }   # TODO
+
+  - title: "ML Global Simulation of Nonlocal Gravity Wave Propagation"
+    venue: "Contributed ML-based simulation methods for atmospheric gravity wave modeling"
+    links:
+      - { label: Paper, url: "#" }   # TODO
+
+talks:
+  - title: "Fine-tuning Foundation Models with AWS SageMaker"
+    venue: INGARSS & Colorado State University
+    description: "Hands-on workshop guiding 50+ participants through practical implementation patterns and best practices."
+
+education:
+  - school: Tampere University
+    degree: "M.Sc. in Information Technology (Data Engineering and Machine Learning)"
+    location: Tampere, Finland
+    dates: 2018 – 2020
+    notes: "Full tuition fee waiver scholarship (13,000 EUR/year) awarded for academic merit."
+
+  - school: Manav Rachna International University
+    degree: "B.Tech in Computer Science Engineering"
+    location: Faridabad, India
+    dates: 2013 – 2017
+
+awards:
+  - title: MSME Enterprise Grant
+    detail: "Awarded 7,000 EUR for the Sparsh entrepreneurial initiative."
+  - title: Dentist Posture Belt Innovation Grant
+    detail: "Received 1,650 EUR for a health-tech hardware prototype."
+  - title: Full Tuition Scholarship — Tampere University
+    detail: "Two academic years (26,000 EUR total)."

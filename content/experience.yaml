@@ -1,0 +1,51 @@
+experience:
+  - company: NASA IMPACT
+    role: Computer Scientist
+    location: Huntsville, AL, USA
+    dates: Feb 2023 – Present
+    projects:
+      - name: "Prithvi WxC — Weather & Climate Foundation Model"
+        bullets:
+          - "Designed and executed end-to-end data processing pipelines for petabyte-scale reanalysis time-series datasets, enabling reliable model training across isolated computing environments."
+          - "Applied LoRA-based parameter-efficient fine-tuning on pre-trained transformer backbones to create task-specific downstream models, reducing training cost while maintaining prediction quality."
+      - name: "Surya — Heliophysics Foundation Model"
+        bullets:
+          - "Led exploratory data analysis on multi-year solar image archives, identifying data quality issues and informing architecture choices for the generative model pipeline."
+          - "Trained and benchmarked multiple transformer architectures on NVIDIA DGX and NAS clusters, managing distributed workflows via SLURM and PBS schedulers."
+          - "Fine-tuned the foundation model using LoRA adapters and task-specific decoders to predict solar flares and solar wind; validated results alongside the science team."
+          - "Designed convolution-based baselines for solar prediction and solar wind prediction tasks."
+      - name: "Harmonized Landsat and Sentinel (HLS) Bandpass Research"
+        bullets:
+          - "Built a clean, reproducible dataset by aggregating imagery from multiple remote sensing sources, establishing standardized data preparation patterns reusable across teams."
+          - "Created deep learning model benchmarks and systematically evaluated performance across architectures, documenting best practices and methodology comparisons for broader team adoption."
+      - name: "US Greenhouse Gas Center"
+        bullets:
+          - "Automated end-to-end transformation pipelines converting geospatial data to Cloud-Optimized GeoTIFFs (COGs), eliminating manual processing steps."
+          - "Orchestrated data ingestion workflows using Apache Airflow and cataloged outputs into STAC-compliant metadata stores for scalable discovery."
+          - "Managed and monitored AWS cloud infrastructure (Lambda, API Gateway, EC2) supporting the platform backend. The project was presented at the White House and at COP28."
+
+  - company: Sanoma Media Finland Oy
+    role: Data Scientist
+    location: Helsinki, Finland
+    dates: Apr 2022 – Jan 2023
+    bullets:
+      - "Developed and deployed a production recommendation engine using ALS collaborative filtering within the Sanoma Unified Recommendation Framework, integrated directly with content delivery systems."
+      - "Collaborated with business stakeholders to identify automation and AI opportunities, translating real business needs into multiple ML proof-of-concept prototypes."
+      - "Refactored legacy Scala data pipelines into Python, creating reusable components that accelerated iteration for the data science team."
+      - "Performed large-scale exploratory data analysis on user engagement data across digital media platforms, surfacing actionable insights for editorial and product teams."
+
+  - company: Kone Corporation
+    role: Data Science Trainee
+    location: Espoo, Finland
+    dates: Jun 2021 – Sep 2021
+    bullets:
+      - "Analyzed IoT sensor telemetry from elevator and escalator systems to identify anomalies and patterns, delivering insights that improved device monitoring services."
+      - "Built and executed cloud-based data analysis workflows on AWS (Athena, S3, EC2) to process large-scale industrial sensor datasets."
+
+  - company: Nokia Technologies
+    role: Data Science Trainee — Thesis Worker
+    location: Espoo, Finland
+    dates: Jun 2019 – May 2021
+    bullets:
+      - "Owned the full AI solution lifecycle: built a novel annotated dataset for patent office actions, developed a text classification model, designed cloud architecture for deployment, and built a .NET desktop prototype for end-user access."
+      - "Delivered a production-ready cloud solution integrating the ML model as a service, demonstrating end-to-end ownership from data collection through deployment and monitoring."

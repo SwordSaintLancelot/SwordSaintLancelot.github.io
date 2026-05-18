@@ -1,2 +1,4 @@
 Jinja2>=3.1
 PyYAML>=6.0
+python-frontmatter>=1.0
+markdown>=3.5

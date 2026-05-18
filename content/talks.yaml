@@ -1,0 +1,4 @@
+talks:
+  - title: "Fine-tuning Foundation Models with AWS SageMaker"
+    venue: INGARSS & Colorado State University
+    description: "Hands-on workshop guiding 50+ participants through practical implementation patterns and best practices."

@@ -1,0 +1,15 @@
+publications:
+  - title: "Prithvi WxC: Foundation Model for Weather and Climate"
+    venue: "Collaboration with NASA, IBM, Oak Ridge National Laboratory, NVIDIA"
+    links:
+      - { label: Paper, url: "https://arxiv.org/pdf/2409.13598" }
+
+  - title: "Surya: Foundation Model for Heliophysics"
+    venue: "Co-authored research on training large-scale generative architectures for solar physics applications"
+    links:
+      - { label: Paper, url: "https://arxiv.org/pdf/2508.14112" }
+
+  - title: "ML Global Simulation of Nonlocal Gravity Wave Propagation"
+    venue: "Contributed ML-based simulation methods for atmospheric gravity wave modeling"
+    links:
+      - { label: Paper, url: "https://arxiv.org/pdf/2406.14775" }

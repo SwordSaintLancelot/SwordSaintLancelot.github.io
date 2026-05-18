@@ -1,0 +1,16 @@
+# Top-level profile data: name, title, contact links, resume.
+# Long prose lives in about.md; lists live in their own files.
+
+profile:
+  name: Vishal Gaur
+  title: Computer Scientist
+  affiliation: NASA IMPACT/ ODSI
+  location: Huntsville, AL, USA
+  tagline: Building generative AI and foundation models for Earth and space science.
+  email: vishalgaur2@gmail.com
+  links:
+    - { label: LinkedIn,       url: "https://linkedin.com/in/vishal-gaur" }
+    - { label: GitHub,         url: "https://github.com/SwordSaintLancelot" }
+    - { label: Google Scholar, url: "https://scholar.google.com/citations?user=FejU9moAAAAJ&hl=en" }
+    - { label: Email,          url: "mailto:vishalgaur2@gmail.com" }
+  resume_pdf: static/resume.pdf

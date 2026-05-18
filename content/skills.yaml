@@ -1,0 +1,23 @@
+skills:
+  - category: Languages
+    entries: [Python, SQL, "C#", "C++"]
+  - category: AI / ML Frameworks
+    entries: [PyTorch, Hugging Face, Transformers, scikit-learn, SciPy, chromaDB, pgvector, OpenCV, YOLO]
+  - category: Generative AI
+    entries:
+      - "Transformer models (encoder / decoder)"
+      - "Foundation model fine-tuning"
+      - "LoRA (parameter-efficient adaptation)"
+      - "LLMs and RAG systems"
+      - "Distributed training (DDP)"
+      - "Model quantization"
+  - category: Data & MLOps
+    entries: ["ML optimization", "MLOps", "STAC metadata pipelines"]
+  - category: Cloud & Infrastructure
+    entries: ["AWS (S3, EC2, Lambda, Athena, SageMaker)", "WandB", "Docker", "SLURM", "PBS"]
+  - category: APIs & Integration
+    entries: ["FastAPI", "RESTful services", "API Gateway", "Cloud-native service integration"]
+  - category: Platforms & Tools
+    entries: [Linux, macOS, QGIS, GitHub]
+  - category: Domains
+    entries: ["Foundation Models", "Computer Vision", "LLMs", "RAGs", "Intelligent Automation", "Recommendation Systems", "Geospatial Analytics", "Explainable AI"]

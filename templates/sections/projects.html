@@ -1,19 +1,31 @@
 <section id="projects">
-  <h2>Selected Projects</h2>
-  {% for p in projects %}
-  <article class="project">
-    <h3>{{ p.name }}</h3>
-    <p>{{ p.blurb }}</p>
-    {% if p.tags %}
-    <p class="tags">
-      {% for t in p.tags %}<span>{{ t }}</span>{% endfor %}
-    </p>
-    {% endif %}
-    {% if p.links %}
-    <ul class="inline-links">
-      {% for l in p.links %}<li><a href="{{ l.url }}">{{ l.label }}</a></li>{% endfor %}
-    </ul>
-    {% endif %}
-  </article>
-  {% endfor %}
+  <h2>Featured Projects</h2>
+  <div class="project-cards">
+    {% for p in projects %}
+    <article class="card" id="proj-{{ p.slug }}">
+      <a class="card-thumb" href="projects/{{ p.slug }}/">
+        {% if p.thumbnail %}
+        <img src="{{ p.thumbnail }}" alt="{{ p.name }}">
+        {% else %}
+        <div class="thumb-placeholder" aria-hidden="true"></div>
+        {% endif %}
+      </a>
+      <div class="card-body">
+        <h3><a href="projects/{{ p.slug }}/">{{ p.name }}</a></h3>
+        <p>{{ p.blurb }}</p>
+        {% if p.tags %}
+        <p class="tags">
+          {% for t in p.tags %}<span>{{ t }}</span>{% endfor %}
+        </p>
+        {% endif %}
+        <p class="card-foot">
+          <a class="card-more" href="projects/{{ p.slug }}/">Read more &rarr;</a>
+          {% if p.links %}
+          {% for l in p.links %}<a class="card-extlink" href="{{ l.url }}">{{ l.label }}</a>{% endfor %}
+          {% endif %}
+        </p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
 </section>

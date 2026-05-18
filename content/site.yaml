@@ -3,10 +3,16 @@
 
 profile:
   name: Vishal Gaur
-  title: Computer Scientist
-  affiliation: NASA IMPACT/ ODSI
+  title: ML Engineer / Researcher
+  affiliation: NASA IMPACT
   location: Huntsville, AL, USA
-  tagline: Building generative AI and foundation models for Earth and space science.
+  tagline: >-
+    ML Engineer and researcher working on foundation models, generative AI,
+    and distributed training in collaborative environments to build
+    production-level systems with end-to-end ownership of the AI solution.
+  now: >-
+    Currently exploring: open-source ML projects on protein, time-series,
+    and other datasets — diversifying applications beyond Earth and space science.
   email: vishalgaur2@gmail.com
   links:
     - { label: LinkedIn,       url: "https://linkedin.com/in/vishal-gaur" }
@@ -14,3 +20,9 @@ profile:
     - { label: Google Scholar, url: "https://scholar.google.com/citations?user=FejU9moAAAAJ&hl=en" }
     - { label: Email,          url: "mailto:vishalgaur2@gmail.com" }
   resume_pdf: static/resume.pdf
+
+seo:
+  page_title: "Vishal Gaur — ML Engineer / Foundation Models, GenAI, Production ML"
+  meta_description: >-
+    Machine learning engineer working on foundation models, generative AI,
+    and production ML. Currently training transformer foundation models at NASA.

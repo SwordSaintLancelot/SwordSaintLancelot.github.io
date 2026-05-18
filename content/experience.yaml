@@ -1,8 +1,20 @@
+# Each role has:
+#   summary       : the one-sentence description shown on the main page
+#   project_links : optional list of {name, slug?} — linked names if slug present
+#   projects/bullets : deep content kept as reference material for project subpages
+#                      (Phase 3). The main-page template no longer renders these inline.
+
 experience:
   - company: NASA IMPACT
     role: Computer Scientist
     location: Huntsville, AL, USA
     dates: Feb 2023 – Present
+    summary: "Foundation-model R&D and ML platform work across Earth science and heliophysics."
+    project_links:
+      - { name: "Prithvi WxC",                 slug: prithvi-wxc }
+      - { name: "Surya",                       slug: surya }
+      - { name: "US Greenhouse Gas Center",    slug: us-ghg-center }
+      - { name: "HLS Bandpass Research" }
     projects:
       - name: "Prithvi WxC — Weather & Climate Foundation Model"
         bullets:
@@ -28,6 +40,9 @@ experience:
     role: Data Scientist
     location: Helsinki, Finland
     dates: Apr 2022 – Jan 2023
+    summary: "Shipped a production ALS recommender and built ML proof-of-concepts for editorial and product teams."
+    project_links:
+      - { name: "Sanoma Unified Recommendation Framework", slug: sanoma-recommender }
     bullets:
       - "Developed and deployed a production recommendation engine using ALS collaborative filtering within the Sanoma Unified Recommendation Framework, integrated directly with content delivery systems."
       - "Collaborated with business stakeholders to identify automation and AI opportunities, translating real business needs into multiple ML proof-of-concept prototypes."
@@ -38,6 +53,7 @@ experience:
     role: Data Science Trainee
     location: Espoo, Finland
     dates: Jun 2021 – Sep 2021
+    summary: "Analyzed IoT telemetry from elevator and escalator systems and built cloud-based analysis workflows on AWS."
     bullets:
       - "Analyzed IoT sensor telemetry from elevator and escalator systems to identify anomalies and patterns, delivering insights that improved device monitoring services."
       - "Built and executed cloud-based data analysis workflows on AWS (Athena, S3, EC2) to process large-scale industrial sensor datasets."
@@ -46,6 +62,7 @@ experience:
     role: Data Science Trainee — Thesis Worker
     location: Espoo, Finland
     dates: Jun 2019 – May 2021
+    summary: "End-to-end AI solution for patent office actions: novel dataset, text classifier, cloud architecture, and a .NET desktop prototype."
     bullets:
       - "Owned the full AI solution lifecycle: built a novel annotated dataset for patent office actions, developed a text classification model, designed cloud architecture for deployment, and built a .NET desktop prototype for end-user access."
       - "Delivered a production-ready cloud solution integrating the ML model as a service, demonstrating end-to-end ownership from data collection through deployment and monitoring."

@@ -11,4 +11,7 @@
     <li><a href="{{ profile.resume_pdf }}">Résumé (PDF)</a></li>
     {% endif %}
   </ul>
+  {% if profile.now %}
+  <p class="now">{{ profile.now }}</p>
+  {% endif %}
 </section>

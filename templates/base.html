@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ profile.name }} — {{ profile.title }}</title>
-  <meta name="description" content="{{ profile.tagline }}">
-  <meta property="og:title" content="{{ profile.name }} — {{ profile.title }}">
-  <meta property="og:description" content="{{ profile.tagline }}">
+  {% set page_title = page_title|default((seo.page_title if seo and seo.page_title) or (profile.name ~ ' — ' ~ profile.title)) %}
+  {% set meta_desc = meta_description|default((seo.meta_description if seo and seo.meta_description) or profile.tagline) %}
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ meta_desc }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ meta_desc }}">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="static/styles.css">
+  <link rel="stylesheet" href="{{ asset_prefix|default('') }}static/styles.css">
 </head>
 <body>
   <main>

@@ -1,24 +1,21 @@
 <section id="experience">
   <h2>Experience</h2>
   {% for job in experience %}
-  <article class="job">
+  <article class="job-compact">
     <header>
       <h3>{{ job.role }} &middot; {{ job.company }}</h3>
       <p class="meta">{{ job.location }} &middot; {{ job.dates }}</p>
     </header>
-    {% if job.projects %}
-      {% for proj in job.projects %}
-      <div class="subproject">
-        <h4>{{ proj.name }}</h4>
-        <ul>
-          {% for b in proj.bullets %}<li>{{ b }}</li>{% endfor %}
-        </ul>
-      </div>
+    {% if job.summary %}
+    <p class="job-summary">{{ job.summary }}</p>
+    {% endif %}
+    {% if job.project_links %}
+    <p class="job-projects">
+      <span class="job-projects-label">Projects:</span>
+      {% for p in job.project_links %}
+        {% if p.slug %}<a href="#proj-{{ p.slug }}">{{ p.name }}</a>{% else %}<span class="project-noref">{{ p.name }}</span>{% endif %}{% if not loop.last %} &middot; {% endif %}
       {% endfor %}
-    {% elif job.bullets %}
-    <ul>
-      {% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}
-    </ul>
+    </p>
     {% endif %}
   </article>
   {% endfor %}

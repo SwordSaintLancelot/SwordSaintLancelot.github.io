@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="back-nav">
+  <a href="{{ asset_prefix }}index.html#proj-{{ project.slug }}">&larr; Back to all projects</a>
+</nav>
+<article class="project-page">
+  <header class="project-header">
+    <h1>{{ project.name }}</h1>
+    {% if project.blurb %}<p class="project-blurb">{{ project.blurb }}</p>{% endif %}
+    {% if project.tags %}
+    <p class="tags">
+      {% for t in project.tags %}<span>{{ t }}</span>{% endfor %}
+    </p>
+    {% endif %}
+    {% if project.links %}
+    <ul class="inline-links">
+      {% for l in project.links %}<li><a href="{{ l.url }}">{{ l.label }}</a></li>{% endfor %}
+    </ul>
+    {% endif %}
+  </header>
+  <div class="project-body">
+    {% if project.body_html %}
+    {{ project.body_html | safe }}
+    {% else %}
+    <p class="meta">This project page has no body content yet — see frontmatter in <code>content/projects/{{ project.slug }}.md</code>.</p>
+    {% endif %}
+  </div>
+</article>
+{% endblock %}

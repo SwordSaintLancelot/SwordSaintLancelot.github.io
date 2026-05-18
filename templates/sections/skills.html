@@ -1,9 +1,13 @@
 <section id="skills">
   <h2>Skills</h2>
-  <dl class="skills">
+  <div class="skill-groups">
     {% for group in skills %}
-    <dt>{{ group.category }}</dt>
-    <dd>{{ group.entries | join(", ") }}</dd>
+    <div class="skill-row">
+      <div class="skill-label">{{ group.category }}</div>
+      <div class="skill-chips">
+        {% for entry in group.entries %}<span class="chip">{{ entry }}</span>{% endfor %}
+      </div>
+    </div>
     {% endfor %}
-  </dl>
+  </div>
 </section>

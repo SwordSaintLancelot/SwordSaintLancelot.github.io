@@ -1,17 +1,59 @@
+{% import "_icons.html" as icons %}
 <section class="hero">
-  <h1>{{ profile.name }}</h1>
-  <p class="title">{{ profile.title }} &middot; {{ profile.affiliation }}</p>
-  <p class="tagline">{{ profile.tagline }}</p>
-  <p class="meta">{{ profile.location }}</p>
-  <ul class="links">
-    {% for link in profile.links %}
-    <li><a href="{{ link.url }}">{{ link.label }}</a></li>
-    {% endfor %}
-    {% if profile.resume_pdf %}
-    <li><a href="{{ profile.resume_pdf }}">Résumé (PDF)</a></li>
+  <div class="hero__text">
+    <p class="hero__eyebrow">{{ profile.title }} &middot; {{ profile.affiliation }}</p>
+    <h1 class="hero__name">{{ profile.name }}</h1>
+    <p class="hero__tagline">{{ profile.tagline }}</p>
+    <p class="hero__location">{{ profile.location }}</p>
+    <ul class="hero__links">
+      {% for link in profile.links %}
+      <li>
+        <a class="icon-btn" href="{{ link.url }}" aria-label="{{ link.label }}" title="{{ link.label }}">
+          {{ icons.social(link.label) }}
+        </a>
+      </li>
+      {% endfor %}
+      {% if profile.resume_pdf %}
+      <li>
+        <a class="icon-btn" href="{{ asset_prefix|default('') }}{{ profile.resume_pdf }}" aria-label="Résumé (PDF)" title="Résumé (PDF)">
+          {{ icons.social("Résumé") }}
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    {% if profile.now %}
+    <p class="hero__now">
+      <span class="hero__now-label">Now</span>
+      <span class="hero__now-text">{{ profile.now }}</span>
+    </p>
     {% endif %}
-  </ul>
-  {% if profile.now %}
-  <p class="now">{{ profile.now }}</p>
-  {% endif %}
+  </div>
+
+  <div class="hero__visual" aria-hidden="true">
+    <svg class="hero-dotgrid" viewBox="0 0 280 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hero-fade" cx="0.75" cy="0.5" r="0.8">
+          <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="0.6" stop-color="#fff" stop-opacity="0.8"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="hero-mask">
+          <rect width="280" height="360" fill="url(#hero-fade)"/>
+        </mask>
+      </defs>
+      <g mask="url(#hero-mask)" fill="currentColor">
+        {% for x in range(8, 280, 18) %}
+          {% for y in range(8, 360, 18) %}
+            <circle cx="{{ x }}" cy="{{ y }}" r="1.4"/>
+          {% endfor %}
+        {% endfor %}
+        <circle class="hero-dotgrid__pulse hero-dotgrid__pulse--1" cx="116" cy="80" r="2.4"/>
+        <circle class="hero-dotgrid__pulse hero-dotgrid__pulse--2" cx="206" cy="142" r="2.4"/>
+        <circle class="hero-dotgrid__pulse hero-dotgrid__pulse--3" cx="152" cy="206" r="2.4"/>
+        <circle class="hero-dotgrid__pulse hero-dotgrid__pulse--4" cx="80" cy="260" r="2.4"/>
+        <circle class="hero-dotgrid__pulse hero-dotgrid__pulse--5" cx="224" cy="296" r="2.4"/>
+        <circle class="hero-dotgrid__pulse hero-dotgrid__pulse--6" cx="170" cy="44" r="2.4"/>
+      </g>
+    </svg>
+  </div>
 </section>

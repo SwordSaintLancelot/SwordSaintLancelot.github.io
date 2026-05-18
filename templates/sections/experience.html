@@ -1,22 +1,31 @@
 <section id="experience">
   <h2>Experience</h2>
-  {% for job in experience %}
-  <article class="job-compact">
-    <header>
-      <h3>{{ job.role }} &middot; {{ job.company }}</h3>
-      <p class="meta">{{ job.location }} &middot; {{ job.dates }}</p>
-    </header>
-    {% if job.summary %}
-    <p class="job-summary">{{ job.summary }}</p>
-    {% endif %}
-    {% if job.project_links %}
-    <p class="job-projects">
-      <span class="job-projects-label">Projects:</span>
-      {% for p in job.project_links %}
-        {% if p.slug %}<a href="#proj-{{ p.slug }}">{{ p.name }}</a>{% else %}<span class="project-noref">{{ p.name }}</span>{% endif %}{% if not loop.last %} &middot; {% endif %}
-      {% endfor %}
-    </p>
-    {% endif %}
-  </article>
-  {% endfor %}
+  <ol class="timeline">
+    {% for job in experience %}
+    <li class="timeline__item">
+      <span class="timeline__dot" aria-hidden="true"></span>
+      <div class="timeline__body">
+        <p class="timeline__dates">{{ job.dates }}</p>
+        <h3 class="timeline__role">{{ job.role }}</h3>
+        <p class="timeline__company">{{ job.company }} &middot; <span class="timeline__location">{{ job.location }}</span></p>
+        {% if job.summary %}
+        <p class="timeline__summary">{{ job.summary }}</p>
+        {% endif %}
+        {% if job.project_links %}
+        <ul class="timeline__projects">
+          {% for p in job.project_links %}
+          <li>
+            {% if p.slug %}
+            <a class="tag tag--link" href="{{ asset_prefix|default('') }}index.html#proj-{{ p.slug }}">{{ p.name }}</a>
+            {% else %}
+            <span class="tag tag--muted">{{ p.name }}</span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
 </section>

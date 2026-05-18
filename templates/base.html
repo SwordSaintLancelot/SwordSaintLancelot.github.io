@@ -10,14 +10,98 @@
   <meta property="og:title" content="{{ page_title }}">
   <meta property="og:description" content="{{ meta_desc }}">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ asset_prefix|default('') }}static/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ asset_prefix|default('') }}static/og-image.svg">
+
+  <link rel="icon" type="image/svg+xml" href="{{ asset_prefix|default('') }}static/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="{{ asset_prefix|default('') }}static/styles.css">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || t === "light") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) {}
+      // Gate entrance animations: only engage when JS is on and the user
+      // has not requested reduced motion. Set pre-paint to avoid FOUC.
+      try {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("js-anim");
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
+  <header class="site-nav" data-site-nav>
+    <div class="site-nav__inner">
+      <a class="site-nav__brand" href="{{ asset_prefix|default('') }}index.html">
+        <span class="site-nav__brand-mark" aria-hidden="true">{{ (profile.name.split(' ')[0][0] ~ profile.name.split(' ')[-1][0]) | upper }}</span>
+        <span class="site-nav__brand-name">{{ profile.name }}</span>
+      </a>
+      <button class="site-nav__menu-toggle" type="button" aria-controls="site-nav-menu" aria-expanded="false" aria-label="Open menu">
+        <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+      <nav class="site-nav__menu" id="site-nav-menu" aria-label="Primary">
+        <ul class="site-nav__links">
+          <li><a href="{{ asset_prefix|default('') }}index.html#about">About</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#projects">Projects</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#skills">Skills</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#experience">Experience</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#publications">Publications</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#contact">Contact</a></li>
+        </ul>
+        <button class="site-nav__theme" type="button" data-theme-toggle aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05" x2="19.07" y2="4.93"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
   <main>
     {% block content %}{% endblock %}
   </main>
-  <footer>
-    <p>&copy; {{ profile.name }}. Built with Python &amp; Jinja2.</p>
+  {% import "_icons.html" as icons %}
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Site</p>
+        <ul class="site-footer__list">
+          <li><a href="{{ asset_prefix|default('') }}index.html#about">About</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#projects">Projects</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#experience">Experience</a></li>
+          <li><a href="{{ asset_prefix|default('') }}index.html#publications">Publications</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Connect</p>
+        <ul class="site-footer__list site-footer__list--social">
+          {% for link in profile.links %}
+          <li>
+            <a href="{{ link.url }}">
+              <span class="site-footer__icon" aria-hidden="true">{{ icons.social(link.label) }}</span>
+              <span>{{ link.label }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Colophon</p>
+        <p class="site-footer__colophon">Built with Python &amp; Jinja2. Fraunces and Inter via Google Fonts.</p>
+      </div>
+    </div>
+    <p class="site-footer__rule">&copy; {{ profile.name }}</p>
   </footer>
+
+  <script src="{{ asset_prefix|default('') }}static/js/site.js" defer></script>
 </body>
 </html>

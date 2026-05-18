@@ -15,6 +15,8 @@ Output layout under docs/:
   static/...                       -> copied verbatim
 """
 from pathlib import Path
+import hashlib
+import html
 import re
 import shutil
 
@@ -22,6 +24,107 @@ import frontmatter
 import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+
+# Callout patterns: blockquote whose first <strong> matches one of these labels
+# becomes a styled callout. Class drives the visual treatment in styles.css.
+_CALLOUT_LABELS = {
+    "TODO": "todo",
+    "What didn't work": "postmortem",
+    "What didn’t work": "postmortem",   # curly apostrophe
+    "Note": "note",
+    "Why": "note",
+}
+_CALLOUT_RE = re.compile(
+    r"<blockquote>\s*<p><strong>("
+    + "|".join(re.escape(k) for k in _CALLOUT_LABELS)
+    + r"):</strong>"
+)
+
+
+def _apply_callouts(html_str: str) -> str:
+    def repl(m):
+        label = m.group(1)
+        cls = _CALLOUT_LABELS.get(label, "note")
+        # Trim ":" off the strong, but keep the label text for the badge.
+        return (
+            f'<blockquote class="callout callout--{cls}">'
+            f'<span class="callout__label">{label}</span>'
+            f"<p>"
+        )
+    return _CALLOUT_RE.sub(repl, html_str)
+
+
+_COVER_PALETTES = [
+    ("#2A2D5E", "#7C7FD8"),
+    ("#3B3D8F", "#8E92E8"),
+    ("#5B5DC3", "#C9CAFB"),
+    ("#3F4474", "#A4ACEC"),
+    ("#1F2452", "#8E92E8"),
+    ("#262A6F", "#B4B8F0"),
+]
+
+
+def _slug_hash(slug: str) -> int:
+    return int(hashlib.md5(slug.encode("utf-8")).hexdigest(), 16)
+
+
+def _initials(name: str) -> str:
+    parts = [w for w in re.split(r"\s+", name) if w and w[0].isalpha()]
+    return "".join(p[0] for p in parts[:2]).upper() or "··"
+
+
+def generate_cover_svg(slug: str, name: str) -> str:
+    """Build a deterministic 16:9 cover SVG for a project.
+
+    Pure function of slug. Same slug -> same cover across rebuilds.
+    Inlined into the page (no extra HTTP requests).
+    """
+    h = _slug_hash(slug)
+    a, b = _COVER_PALETTES[h % len(_COVER_PALETTES)]
+    pattern = h % 3
+    grad_id = f"cov-{slug}"
+    safe_label = html.escape(f"{name} cover")
+    initials = _initials(name)
+
+    if pattern == 0:
+        # dot lattice
+        dots = "".join(
+            f'<circle cx="{x}" cy="{y}" r="1.6" />'
+            for x in range(20, 320, 24)
+            for y in range(20, 180, 24)
+        )
+        overlay = f'<g fill="#fff" opacity="0.18">{dots}</g>'
+    elif pattern == 1:
+        # diagonal hatch
+        lines = "".join(
+            f'<line x1="{i-120}" y1="180" x2="{i+120}" y2="0" />'
+            for i in range(-80, 460, 32)
+        )
+        overlay = f'<g stroke="#fff" stroke-width="1" opacity="0.14">{lines}</g>'
+    else:
+        # concentric arcs from top-right corner
+        rings = "".join(
+            f'<circle cx="320" cy="0" r="{r}" />'
+            for r in (60, 110, 160, 210, 260, 310, 360)
+        )
+        overlay = f'<g stroke="#fff" stroke-width="1.4" fill="none" opacity="0.18">{rings}</g>'
+
+    return (
+        f'<svg class="card-cover-svg" viewBox="0 0 320 180" '
+        f'preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{safe_label}">'
+        f'<defs><linearGradient id="{grad_id}" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="{a}"/>'
+        f'<stop offset="1" stop-color="{b}"/>'
+        f'</linearGradient></defs>'
+        f'<rect width="320" height="180" fill="url(#{grad_id})"/>'
+        f'{overlay}'
+        f'<text x="20" y="162" font-family="JetBrains Mono, ui-monospace, monospace" '
+        f'font-size="14" font-weight="500" fill="#fff" fill-opacity="0.9" '
+        f'letter-spacing="2">{html.escape(initials)}</text>'
+        f'</svg>'
+    )
 
 ROOT = Path(__file__).parent
 TEMPLATES_DIR = ROOT / "templates"
@@ -48,12 +151,80 @@ def load_content():
         for path in sorted(projects_dir.glob("*.md")):
             post = frontmatter.load(path)
             entry = dict(post.metadata)
-            entry["body_html"] = markdown.markdown(post.content) if post.content.strip() else ""
+            if post.content.strip():
+                md = markdown.Markdown(
+                    extensions=["fenced_code", "toc"],
+                    extension_configs={"toc": {"permalink": False, "toc_depth": "2-2"}},
+                )
+                body_html = md.convert(post.content)
+                entry["body_html"] = _apply_callouts(body_html)
+                # toc_tokens is the structured outline. Keep only h2 entries.
+                tokens = getattr(md, "toc_tokens", []) or []
+                # toc_tokens names come HTML-escaped; un-escape once so
+                # Jinja autoescape doesn't double them.
+                entry["toc"] = [
+                    {"id": t["id"], "name": html.unescape(t["name"])}
+                    for t in tokens if t.get("level") == 2
+                ]
+            else:
+                entry["body_html"] = ""
+                entry["toc"] = []
+            if entry.get("slug") and not entry.get("thumbnail"):
+                entry["cover_svg"] = generate_cover_svg(entry["slug"], entry.get("name", entry["slug"]))
             projects.append(entry)
         projects.sort(key=lambda p: p.get("order", 999))
         data["projects"] = projects
 
     return data
+
+
+def generate_favicon_svg(name: str) -> str:
+    initials = _initials(name)
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
+        '<rect width="32" height="32" rx="6" fill="#3B3D8F"/>'
+        f'<text x="16" y="22" text-anchor="middle" '
+        'font-family="JetBrains Mono, ui-monospace, monospace" '
+        'font-size="14" font-weight="600" fill="#FFFFFF" '
+        f'letter-spacing="0.5">{html.escape(initials)}</text>'
+        "</svg>"
+    )
+
+
+def generate_og_svg(name: str, title: str, tagline: str) -> str:
+    """1200x630 OG image. Indigo bg with a dot-grid corner and large name."""
+    dots = "".join(
+        f'<circle cx="{x}" cy="{y}" r="3" />'
+        for x in range(820, 1200, 28)
+        for y in range(60, 280, 28)
+    )
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" '
+        'width="1200" height="630">'
+        '<rect width="1200" height="630" fill="#0F1115"/>'
+        '<rect x="0" y="0" width="1200" height="630" fill="url(#og-grad)" opacity="0.6"/>'
+        '<defs>'
+        '<linearGradient id="og-grad" x1="0" y1="0" x2="1" y2="1">'
+        '<stop offset="0" stop-color="#1F2452"/>'
+        '<stop offset="1" stop-color="#3B3D8F"/>'
+        '</linearGradient>'
+        '</defs>'
+        f'<g fill="#8E92E8" opacity="0.35">{dots}</g>'
+        '<text x="80" y="270" font-family="JetBrains Mono, ui-monospace, monospace" '
+        'font-size="22" font-weight="500" fill="#8E92E8" letter-spacing="6">'
+        f'{html.escape(title.upper())}'
+        '</text>'
+        '<text x="80" y="380" font-family="Georgia, serif" '
+        'font-size="92" font-weight="700" fill="#FAFAF7" letter-spacing="-2">'
+        f'{html.escape(name)}'
+        '</text>'
+        '<text x="80" y="450" font-family="-apple-system, system-ui, sans-serif" '
+        'font-size="28" fill="#9B9DA6">'
+        f'{html.escape(tagline)}'
+        '</text>'
+        '<line x1="80" y1="540" x2="200" y2="540" stroke="#3B3D8F" stroke-width="3"/>'
+        '</svg>'
+    )
 
 
 def make_env():
@@ -110,6 +281,24 @@ def write_output(env, data):
     if STATIC_DIR.exists():
         shutil.copytree(STATIC_DIR, OUT_DIR / "static")
     (OUT_DIR / ".nojekyll").touch()
+
+    # Generated assets — favicon and OG image. Written into the output static
+    # dir so they ship alongside other static files. Derived from profile data,
+    # so renaming the profile auto-updates them on next build.
+    out_static = OUT_DIR / "static"
+    out_static.mkdir(exist_ok=True)
+    profile = data.get("profile", {})
+    pname = profile.get("name", "Site")
+    ptitle = profile.get("title", "")
+    ptag = profile.get("tagline", "") or ""
+    # Short tagline: first sentence or first 80 chars
+    short_tag = ptag.split(".")[0].strip()
+    if len(short_tag) > 80:
+        short_tag = short_tag[:77].rstrip() + "..."
+    (out_static / "favicon.svg").write_text(generate_favicon_svg(pname), encoding="utf-8")
+    (out_static / "og-image.svg").write_text(
+        generate_og_svg(pname, ptitle, short_tag), encoding="utf-8"
+    )
 
 
 def main():

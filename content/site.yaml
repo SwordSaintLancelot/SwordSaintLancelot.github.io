@@ -3,16 +3,16 @@
 
 profile:
   name: Vishal Gaur
-  title: ML Engineer / Researcher
+  title: ML Engineer / Researcher / Computer Scientist
   affiliation: NASA IMPACT
-  location: Huntsville, AL, USA
+  location: Tampere, Finland
   tagline: >-
     ML Engineer and researcher working on foundation models, generative AI,
     and distributed training in collaborative environments to build
     production-level systems with end-to-end ownership of the AI solution.
-  now: >-
-    Currently exploring: open-source ML projects on protein, time-series,
-    and other datasets — diversifying applications beyond Earth and space science.
+  # now: >-
+  #   Currently exploring: open-source ML projects on protein, time-series,
+  #   and other datasets — diversifying applications beyond Earth and space science.
   email: vishalgaur2@gmail.com
   links:
     - { label: LinkedIn,       url: "https://linkedin.com/in/vishal-gaur" }

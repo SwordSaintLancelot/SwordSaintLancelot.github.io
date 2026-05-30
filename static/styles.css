@@ -1224,6 +1224,13 @@ footer.site-footer {
 .project-body li { margin: var(--space-2) 0; }
 .project-body a { border-bottom: 1px solid var(--accent-soft); }
 .project-body a:hover { border-bottom-color: var(--accent); }
+.project-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--space-4) 0;
+  border-radius: var(--radius-md);
+}
 
 /* Callouts (build.py post-processes blockquotes for TODO/postmortem/note) */
 .project-body blockquote {

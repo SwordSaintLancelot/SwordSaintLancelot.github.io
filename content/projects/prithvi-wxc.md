@@ -3,7 +3,7 @@ name: "Prithvi WxC — Weather & Climate Foundation Model"
 slug: prithvi-wxc
 order: 1
 blurb: >
-  Transformer-based foundation model for weather and climate, developed
+  Vision Transformer-based foundation model for weather and climate, developed
   in collaboration with NASA, IBM, Oak Ridge National Laboratory, and
   NVIDIA. Petabyte-scale data pipelines and LoRA-based downstream
   fine-tuning.
@@ -15,70 +15,114 @@ links:
 
 ## Problem & Motivation
 
-Prithvi WxC is a transformer-based foundation model for weather and climate,
+Prithvi WxC is a vision transformer-based (ViT) foundation model for weather and climate,
 developed in collaboration with NASA, IBM, Oak Ridge National Laboratory, and
-NVIDIA. The goal: a single pre-trained backbone that downstream weather and
-climate tasks can fine-tune from, instead of training task-specific models
+NVIDIA. The goal was  to create a unified pre-trained backbone that can be fine-tuned for
+downstream weather and climate tasks, instead of training task-specific models
 from scratch.
 
-> **TODO:** Explain *why* a foundation model for weather/climate matters —
-> the gap in existing approaches, the scientific or operational pain point,
-> and what an FM unlocks that task-specific models cannot.
+Numerical weather prediction (NWP) models consume intensive compute to provide weather predictions whereas 
+Foundation models for weather and climate create a unified backbone using similar amount
+of compute which can be used for multiple downstream cases. For decades, scientist have used NWPs to 
+predict weather forecasts. Nowadays comparable results are being achieved using AI methods with the possibility
+to use the same models for multiple tasks utilizing a fraction of data that would be used in either NWPs or a task specific model.
 
 ## Data
 
-- **Sources:** TODO — name the reanalysis datasets used (e.g. MERRA-2, ERA5),
-  variables, and temporal coverage.
-- **Scale:** petabyte-scale reanalysis time-series.
-- **Preprocessing:** TODO — chunking strategy, normalization, train/val/test
-  splits, handling of missing observations.
+- **Sources:** MERRA-2 reanalysis, 160 atmospheric variables.
+- **Scale:** petabyte-scale time series on a 0.5° × 0.625° lat/lon grid at
+  3-hour cadence; each sample is shaped 320 × 360 × 576.
+- **Splits:** 1980–2019 for pretraining; 2020–2023 reserved for validation
+  / downstream evaluation depending on task.
 
 ## Approach
 
-Transformer backbone pretrained on reanalysis time-series data. Downstream
-tasks adapted via LoRA-based parameter-efficient fine-tuning, which keeps
-the backbone frozen and trains only low-rank adapter weights — reducing
-training cost while maintaining prediction quality.
+Transformer backbone pretrained on MERRA-2 reanalysis time-series. The
+final model has **2.3 B parameters** across 25 encoder + 5 decoder blocks,
+with internal dim 2560, 16 attention heads, and an MLP multiplier of 4.
+Inputs are split into 2×2-pixel patches over 30×32 windows (15×16 tokens),
+yielding 51,840 tokens per sample.
 
-> **TODO:** Describe the model architecture in more depth — token / patch
-> design, masking objective during pretraining, choice of attention
-> variants, hidden size / depth, total parameter count.
+Pretraining runs in two phases: masked reconstruction with alternating
+local/global masking, followed by autoregressive rollout tuning. A key
+design choice was modeling the **deviation from climatology** at each
+timestamp rather than predicting raw state or simple state-difference
+tendencies — this stabilized training and made zero-lead-time tasks
+tractable.
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">ARCHITECTURE DIAGRAM</span>
-  <span class="placeholder-path">static/images/projects/prithvi-wxc/architecture.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Architecture diagram](static/images/projects/prithvi-wxc/architecture.png)</code></figcaption>
-</figure>
+Downstream tasks are adapted via LoRA-based parameter-efficient
+fine-tuning, which keeps the backbone frozen and trains only low-rank
+adapter weights — reducing training cost while maintaining prediction
+quality.
+
+![Architecture diagram](static/images/projects/prithvi-wxc/architecture.png)
 
 ## Experiments & Ablations
 
-> **TODO:** Which downstream tasks did you evaluate (e.g. forecasting,
-> downscaling, gap filling)? Which ablations did you run (LoRA rank,
-> adapter placement, pretraining objective, data mix)? **What didn't work
-> — failed architectures, training instabilities, dataset choices you
-> reverted?**
+**Pretraining (two phases):**
+- *Phase 1 — masked reconstruction.* 100,000 gradient steps on 64× A100
+  (80 GB) GPUs at batch size 1, 50% masking with alternating local/global
+  patterns, 5% stochastic depth (drop path).
+- *Phase 2 — autoregressive rollout.* 0% masking, Swin-shift added, 1–3
+  rollout steps for forecast tuning on 16–48 GPUs depending on rollout
+  depth.
+
+**Downstream tasks evaluated:** zero-shot reconstruction (gap filling),
+medium-range forecasting, hurricane track forecasting, statistical
+downscaling, and gravity-wave flux parameterization.
+
+**What didn't work / had to engineer around:**
+- *Tendency prediction.* Predicting raw state differences broke zero
+  lead-time tasks → switched to modeling deviation from climatology.
+- *Lead-time context tokens.* Specialized transformer layers collapsed
+  attention onto these tokens, which conflicted with stochastic depth →
+  replaced with learned δt (forecast lead) and δτ (input step) embeddings.
+- *3D masking.* Memory blew past 80 GB per GPU; abandoned in favor of the
+  2D masking schedule above.
+- *Numerical instability on cloud-liquid-water.* Extreme value ranges at
+  high pressure levels forced bounded normalization
+  (10⁻⁴ ≤ σ ≤ 10⁴, 10⁻⁷ ≤ σ_C ≤ 10⁷).
 
 ## Results
 
-> **TODO:** Headline metrics versus baselines. Include numbers only when
-> they're from the actual paper or a verified internal evaluation — do not
-> estimate. Link to the paper for full tables.
+- **Zero-shot reconstruction:** recovers atmospheric state from as little
+  as **5%** of inputs when remaining samples are spatially dense, and
+  **25%** when large contiguous regions are masked out — all without any
+  task-specific tuning.
+- **Forecasting:** strong at 6–12 h lead times, particularly for surface
+  temperature; honest about the falloff — Prithvi WxC drops below
+  Pangu-Weather past ~66 h on standard medium-range metrics.
+- **Hurricane Ida (Cat 4) track forecasting:** mean track error
+  **63.9 km** vs. **201.9 km** for MERRA-2 FourCastNet and **262.3 km**
+  for ERA5 FourCastNet; landfall location error **<5 km** vs. **>20 km**
+  for the FourCastNet baselines. Consistent outperformance across a
+  75-event composite through 5-day lead.
+- **Statistical downscaling:** MERRA-2 6× T2m spatial RMSE **0.73 K**
+  (vs. 3.22 K nearest-neighbor / 3.08 K bilinear); CORDEX 12× tas RMSE
+  **0.44 K** (vs. 1.89 K / 1.47 K). ~4× and ~3× better than the
+  interpolation baselines respectively.
+- **Gravity-wave flux parameterization:** spatial correlation **0.99**
+  for the Andes region and **0.97** for the Southern Ocean.
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">RESULTS CHART</span>
-  <span class="placeholder-path">static/images/projects/prithvi-wxc/results.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Headline results](static/images/projects/prithvi-wxc/results.png)</code></figcaption>
-</figure>
+![Hurricane Downstream Results](static/images/projects/prithvi-wxc/downstream_hurricane.png)
 
 ## Engineering Details
 
 - **Data pipelines:** end-to-end processing of petabyte-scale reanalysis
   time-series across **isolated computing environments** (no internet
-  egress on the HPC side).
-- **Distributed training:** TODO — which clusters, scheduler, framework
-  (DDP / FSDP / DeepSpeed), node and GPU count, throughput.
-- **Fine-tuning infra:** TODO — where downstream LoRA fine-tunes run
-  (cloud vs. on-prem), turnaround per task.
+  egress on the HPC side). Climatology is precomputed from 20 years of
+  MERRA-2 with a 61-day rolling window; static fields (elevation, land /
+  ocean / ice fractions) are materialized as monthly files for fast
+  loading.
+- **Distributed training:** FSDP (Fully Sharded Data Parallel) with Flash
+  Attention on A100 (80 GB) GPUs. Phase 1 runs on 64 GPUs at batch size 1;
+  Phase 2 runs on 16–48 GPUs depending on rollout depth.
+- **Mixed precision:** bf16 in transformer blocks, fp32 at input/output
+  layers; activation checkpointing enabled throughout.
+- **Schedule:** cosine-annealed learning rate from 1e-4 to 1e-5 after a
+  linear warmup.
+- **Memory envelope:** ~43 GB/GPU at pretraining; supports up to 4
+  autoregressive rollout steps on an 80 GB A100 with masking (3 without).
 
 ## Reflections
 
@@ -90,5 +134,4 @@ training cost while maintaining prediction quality.
 
 - **Paper:** <https://arxiv.org/pdf/2409.13598>
 - **HuggingFace:** <https://huggingface.co/collections/ibm-nasa-geospatial/prithvi-for-weather-and-climate>
-- **Code:** TODO — add public repo URL if/when available.
-- **Demo / notebooks:** TODO.
+- **Code:** https://github.com/NASA-IMPACT/Prithvi-WxC

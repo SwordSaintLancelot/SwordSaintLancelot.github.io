@@ -55,7 +55,7 @@ fine-tuning, which keeps the backbone frozen and trains only low-rank
 adapter weights — reducing training cost while maintaining prediction
 quality.
 
-![Architecture diagram](static/images/projects/prithvi-wxc/architecture.png)
+![Architecture diagram](static/images/projects/prithvi-wxc/fig04_prithvi_wxc_core.png)
 
 ## Experiments & Ablations
 
@@ -89,6 +89,7 @@ downscaling, and gravity-wave flux parameterization.
   as **5%** of inputs when remaining samples are spatially dense, and
   **25%** when large contiguous regions are masked out — all without any
   task-specific tuning.
+  ![Zero shot reconstruction](static/images/projects/prithvi-wxc/fig05_prithvi_reconstruction.png)
 - **Forecasting:** strong at 6–12 h lead times, particularly for surface
   temperature; honest about the falloff — Prithvi WxC drops below
   Pangu-Weather past ~66 h on standard medium-range metrics.
@@ -97,14 +98,17 @@ downscaling, and gravity-wave flux parameterization.
   for ERA5 FourCastNet; landfall location error **<5 km** vs. **>20 km**
   for the FourCastNet baselines. Consistent outperformance across a
   75-event composite through 5-day lead.
+  ![Hurricane downstream](static/images/projects/prithvi-wxc/fig06_hurricane_ida.png)
 - **Statistical downscaling:** MERRA-2 6× T2m spatial RMSE **0.73 K**
   (vs. 3.22 K nearest-neighbor / 3.08 K bilinear); CORDEX 12× tas RMSE
   **0.44 K** (vs. 1.89 K / 1.47 K). ~4× and ~3× better than the
   interpolation baselines respectively.
+  ![Statistical downscaling](static/images/projects/prithvi-wxc/fig07_downscaling.png)
 - **Gravity-wave flux parameterization:** spatial correlation **0.99**
   for the Andes region and **0.97** for the Southern Ocean.
+  1[Gravity Wave flux parameterization](static/images/projects/prithvi-wxc/fig09_momentum_flux.png)
 
-![Hurricane Downstream Results](static/images/projects/prithvi-wxc/downstream_hurricane.png)
+<!-- ![Hurricane Downstream Results](static/images/projects/prithvi-wxc/downstream_hurricane.png) -->
 
 ## Engineering Details
 
@@ -124,11 +128,11 @@ downscaling, and gravity-wave flux parameterization.
 - **Memory envelope:** ~43 GB/GPU at pretraining; supports up to 4
   autoregressive rollout steps on an 80 GB A100 with masking (3 without).
 
-## Reflections
+<!-- ## Reflections
 
 > **TODO:** What surprised you about training at this scale? What would you
 > do differently in the next FM build? What transferable lessons came out
-> for the broader ML team?
+> for the broader ML team? -->
 
 ## Links
 

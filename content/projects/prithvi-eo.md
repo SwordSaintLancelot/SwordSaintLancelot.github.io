@@ -61,11 +61,7 @@ Released sizes: **300 M parameters (ViT-L)** and **600 M parameters
 the backbone with task-specific decoders (UPerNet, U-Net, FCN) and
 LoRA-based parameter-efficient fine-tuning for select tasks.
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">ARCHITECTURE DIAGRAM</span>
-  <span class="placeholder-path">static/images/projects/prithvi-eo/architecture.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Architecture diagram](static/images/projects/prithvi-eo/architecture.png)</code></figcaption>
-</figure>
+![Architecture diagram](static/images/projects/prithvi-eo/fig10_prithvi_eo2.png)
 
 ## Experiments & Ablations
 
@@ -117,11 +113,6 @@ Headline downstream numbers (verified from the paper):
 - **Above-ground biomass regression:** RMSE **33.40 Mg/ha** with 12
   Sentinel-2 timestamps.
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">RESULTS CHART</span>
-  <span class="placeholder-path">static/images/projects/prithvi-eo/results.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Results figure](static/images/projects/prithvi-eo/results.png)</code></figcaption>
-</figure>
 
 ## Engineering Details
 
@@ -142,12 +133,12 @@ Headline downstream numbers (verified from the paper):
   decoder LR 5e-5, batch size 48 (300M) or 16 (600M), 50–100 epochs with
   early stopping (patience 10–20).
 
-## Reflections
+<!-- ## Reflections
 
 > **TODO:** What did you take away from validating across 20+ downstream
 > tasks rather than a handful? How did the TerraTorch integration change
 > the way external teams adopt the model? What would you change about
-> the pretraining-data sampling strategy in a v3 build?
+> the pretraining-data sampling strategy in a v3 build? -->
 
 ## Links
 

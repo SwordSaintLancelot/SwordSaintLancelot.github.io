@@ -41,6 +41,7 @@ performed in order to align the data, apply corrections and transform them into 
 <!-- TODO — alignment, calibration, masking, quality filters
 (informed by the EDA pass that surfaced data-quality issues feeding back
 into architecture choices). -->
+![Architecture diagram](static/images/projects/surya/fig01_sdo_panel.png)
 
 ## Approach
 
@@ -55,11 +56,7 @@ image resolution for training.
 <!-- > **TODO:** Describe the pretraining objective, tokenization / patching for
 > solar images, decoder design per task, and parameter count. -->
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">ARCHITECTURE DIAGRAM</span>
-  <span class="placeholder-path">static/images/projects/surya/architecture.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Architecture diagram](static/images/projects/surya/architecture.png)</code></figcaption>
-</figure>
+![Architecture diagram](/static/images/projects/surya/fig02_surya_arch.png)
 
 ## Experiments & Ablations
 
@@ -106,11 +103,7 @@ where applicable, the operational reference model.
 - **Zero-shot forecasting:** outperforms a persistence baseline (MSE 0.594)
   and a learned-flow baseline (MSE 0.338) before any task-specific tuning.
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">RESULTS CHART</span>
-  <span class="placeholder-path">static/images/projects/surya/results.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Results figure](static/images/projects/surya/results.png)</code></figcaption>
-</figure>
+![Architecture diagram](static/images/projects/surya/fig03_surya_io_grid.png)
 
 ## Engineering Details
 
@@ -134,15 +127,15 @@ where applicable, the operational reference model.
   `sunpy` and related helio-physics libraries.
 - **Validation:** results validated alongside the heliophysics science team.
 
-## Reflections
+<!-- ## Reflections
 
 > **TODO:** What did training across two different HPC environments teach
 > you? How did the EDA findings reshape the modeling plan? What would you
-> change about the pretraining-vs-fine-tuning split in hindsight?
+> change about the pretraining-vs-fine-tuning split in hindsight? -->
 
 ## Links
 
 - **Paper:** <https://arxiv.org/pdf/2508.14112>
 - **HuggingFace model:** <https://huggingface.co/nasa-ibm-ai4science/Surya-1.0>
-- **Code:** TODO.
-- **Demo / notebooks:** TODO.
+- **Code:** <https://github.com/NASA-IMPACT/Surya>
+

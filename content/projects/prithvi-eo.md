@@ -1,7 +1,8 @@
 ---
 name: "Prithvi EO 2.0 — Earth Observation Foundation Model"
 slug: prithvi-eo
-order: 5
+order: 3
+thumbnail: static/images/projects/prithvi-eo/prithvi_eo.png
 blurb: >
   Multi-temporal Vision Transformer foundation model for Earth observation,
   pretrained on NASA Harmonized Landsat-Sentinel (HLS) imagery and

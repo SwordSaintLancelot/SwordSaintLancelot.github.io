@@ -2,6 +2,7 @@
 name: "Prithvi WxC — Weather & Climate Foundation Model"
 slug: prithvi-wxc
 order: 1
+thumbnail: static/images/projects/prithvi-wxc/prithvi_wxc_thumbnail.jpeg
 blurb: >
   Vision Transformer-based foundation model for weather and climate, developed
   in collaboration with NASA, IBM, Oak Ridge National Laboratory, and
@@ -138,4 +139,4 @@ downscaling, and gravity-wave flux parameterization.
 
 - **Paper:** <https://arxiv.org/pdf/2409.13598>
 - **HuggingFace:** <https://huggingface.co/collections/ibm-nasa-geospatial/prithvi-for-weather-and-climate>
-- **Code:** https://github.com/NASA-IMPACT/Prithvi-WxC
+- **Code:** <https://github.com/NASA-IMPACT/Prithvi-WxC>

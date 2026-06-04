@@ -1,11 +1,14 @@
 ---
 name: "US Greenhouse Gas Center"
 slug: us-ghg-center
-order: 3
+order: 4
+thumbnail: static/images/projects/us-ghg-center/ghg_center.png
 blurb: >
-  Automated geospatial pipelines (Airflow + STAC + COGs) on AWS,
-  supporting a platform presented at the White House and COP28.
-tags: [Geospatial, AWS, Airflow, STAC]
+  Green House Gas Center is a platform based on the visualization, Exploration 
+  and Data Analysis (VEDA) project consisting of automated geospatial pipelines
+  (Airflow + STAC + COGs) on AWS, supporting a scientific exploration presented
+  at the White House and COP28.
+tags: [VEDA, Geospatial, AWS, Airflow, STAC]
 links:
   - { label: Project, url: "https://earth.gov/ghgcenter" }
 ---
@@ -61,18 +64,7 @@ End-to-end pipeline orchestrated with **Apache Airflow** (via the shared
 3. Register into STAC catalog
 4. Expose via the platform's API for downstream consumers
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">PIPELINE DIAGRAM</span>
-  <span class="placeholder-path">static/images/projects/us-ghg-center/pipeline.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Pipeline diagram](static/images/projects/us-ghg-center/pipeline.png)</code></figcaption>
-</figure>
-
-## Experiments & Ablations
-
-> **TODO:** This section is less applicable for a data-platform project than
-> for an ML one — consider replacing with "Design Decisions": which choices
-> were considered (e.g. Zarr vs. COG, alternative catalog standards) and
-> why STAC + COG won; what limits you ran into; what you'd reconsider.
+<br><code>![Pipeline diagram](static/images/projects/us-ghg-center/pipeline_approach.png)</code>
 
 ## Results
 
@@ -84,11 +76,7 @@ raster tiling, and a hosted JupyterHub — to scientists, policymakers, and
 the public, with all datasets, algorithms, and supporting code released
 open-source.
 
-<figure class="image-placeholder">
-  <span class="placeholder-label">PLATFORM SCREENSHOT</span>
-  <span class="placeholder-path">static/images/projects/us-ghg-center/screenshot.png</span>
-  <figcaption>To use: drop the file at the path above, then replace this whole &lt;figure&gt; block with:<br><code>![Platform screenshot](static/images/projects/us-ghg-center/screenshot.png)</code></figcaption>
-</figure>
+<br><code>![Platform screenshot](static/images/projects/us-ghg-center/platform_results.png)</code>
 
 ## Engineering Details
 
@@ -103,13 +91,6 @@ open-source.
 - **Open-source posture:** all ingest code, configs, and Jupyter notebooks
   live under the [US-GHG-Center](https://github.com/US-GHG-Center) org;
   data products themselves are released open.
-
-<!-- ## Reflections
-
-> **TODO:** What would you change about the ingestion contract with data
-> producers? What scaling pain points appeared as more datasets came
-> onboard? What's the most reusable piece of this for other geospatial
-> platforms? -->
 
 ## Links
 

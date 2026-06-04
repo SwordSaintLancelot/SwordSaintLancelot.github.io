@@ -2,6 +2,7 @@
 name: "Surya — Heliophysics Foundation Model"
 slug: surya
 order: 2
+thumbnail: static/images/projects/surya/surya_fm.png
 blurb: >
   Co-developed a generative architecture trained on multi-year solar
   image archives for solar flare and solar wind prediction. Distributed

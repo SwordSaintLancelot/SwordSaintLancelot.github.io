@@ -1120,7 +1120,7 @@ footer.site-footer {
 }
 .project-hero__cover {
   width: 100%;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 21 / 12;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);

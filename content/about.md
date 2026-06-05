@@ -19,9 +19,9 @@ requirements into reliable AI systems, and I enjoy building automation
 workflows, API-driven services, and reusable data engineering
 components.
 -->
-I'm a Computer Scientist with 5+ years of experience in building machine learning solutions
+I'm a Computer Scientist with 5+ years of experience in building solutions
 using deep learning and generative AI in collaborative environments. Currently developing
-transformer-based foundation models at NASA for earth science, space science and planetary science domain,
+foundation models at NASA for earth science, space science and planetary science domain,
 with expertise in end-to-end AI solution ownership — from data pipeline construction and
 model training on HPC clusters to automated cloud deployment and
 monitoring. I work across technical, scientific, and business teams to turn complex

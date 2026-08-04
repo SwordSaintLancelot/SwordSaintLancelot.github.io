@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}{{ realm.professional_name }} · {{ realm.mythic_name }} — {{ site.owner }}{% endblock %}
+{% block meta_description %}{% if realm.project and realm.project.blurb %}{{ realm.project.blurb | replace('\n', ' ') | trim }}{% else %}{{ realm.teaser }}{% endif %}{% endblock %}
+
+{% block og_extra %}
+<meta property="og:url" content="{{ site.base_url }}/realms/{{ realm.slug }}/">
+{% if realm.assets %}
+<meta property="og:image" content="{{ site.base_url }}/{{ realm.assets.small_webp }}">
+{% endif %}
+{% endblock %}
+
+{% block head_extra %}
+<link rel="canonical" href="{{ site.base_url }}/realms/{{ realm.slug }}/">
+<link rel="preload" as="image" href="{{ rel }}{{ gen.blur_avif or gen.blur_webp }}">
+{% endblock %}
+
+{% block body_class %}realm realm--{{ realm.status }}{% endblock %}
+{% block body_attrs %}style="--accent:{{ realm.palette.accent }}; --glow:{{ realm.palette.glow }}"{% endblock %}
+
+{% block content %}
+{# The identical blurred+darkened nebula the homepage suck-in ends on. #}
+<div class="realm-bg" aria-hidden="true">
+  <picture>
+    {% if gen.blur_avif %}<source srcset="{{ rel }}{{ gen.blur_avif }}" type="image/avif">{% endif %}
+    <source srcset="{{ rel }}{{ gen.blur_webp }}" type="image/webp">
+    <img src="{{ rel }}{{ gen.blur_jpg or gen.blur_webp }}" alt="" fetchpriority="high">
+  </picture>
+</div>
+
+<div class="realm-layout">
+  <aside class="keyart" aria-hidden="true">
+    {% if realm.assets %}
+    <picture class="keyart__img">
+      {% if realm.assets.full_avif %}
+      <source srcset="{{ rel }}{{ realm.assets.small_avif }} 800w, {{ rel }}{{ realm.assets.full_avif }} 1672w"
+              sizes="(max-width: 767px) 100vw, 30vw" type="image/avif">
+      {% endif %}
+      <source srcset="{{ rel }}{{ realm.assets.small_webp }} 800w, {{ rel }}{{ realm.assets.full_webp }} 1672w"
+              sizes="(max-width: 767px) 100vw, 30vw" type="image/webp">
+      <img src="{{ rel }}{{ realm.assets.small_webp }}" alt="" fetchpriority="high" decoding="async">
+    </picture>
+    {% else %}
+    <div class="keyart__img keyart__img--silhouette"></div>
+    {% endif %}
+    <div class="keyart__haze"></div>
+    <div class="keyart__glow"></div>
+    <div class="keyart__particles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </aside>
+
+  <article class="realm-content">
+    <header class="realm-head">
+      <h1>{{ realm.professional_name }}</h1>
+      <p class="realm-head__mythic">{{ realm.mythic_name }}</p>
+    </header>
+
+    <section class="narration" aria-label="The chronicle">
+      {% if realm.narration %}
+      {% for passage in realm.narration %}
+      <p class="narration__passage reveal">{{ passage }}</p>
+      {% endfor %}
+      {% elif realm.status == 'in-progress' %}
+      <p class="narration__passage">This chronicle is still being written…</p>
+      <p class="narration__passage narration__passage--quiet">The {{ realm.mythic_name }} has risen from the dark, but its keeper has not yet spoken. Return soon, traveler.</p>
+      {% elif realm.status == 'horizon' %}
+      <p class="narration__passage">{{ realm.teaser }}</p>
+      <p class="narration__passage narration__passage--quiet">{{ realm.capabilities }}</p>
+      {% elif realm.status == 'stub' %}
+      <p class="narration__passage">{{ realm.teaser }}</p>
+      <p class="narration__passage narration__passage--quiet">The Wayfinder has not yet drawn this part of the map. Come back when the ink is dry.</p>
+      {% else %}
+      <p class="narration__passage">{{ realm.teaser }}</p>
+      {% endif %}
+    </section>
+
+    {% if realm.status in ('live', 'in-progress') %}
+    <section class="record" aria-label="Project record">
+      <h2>Project record</h2>
+      {% if realm.project %}
+      <p class="record__blurb">{{ realm.project.blurb }}</p>
+
+      <h3 class="record__label">Role</h3>
+      {% if realm.record and realm.record.role %}
+      <p class="record__body">{{ realm.record.role }}</p>
+      {% else %}
+      <!-- TODO: add record.role for {{ realm.slug }} in mystic_journey/data/realms.yaml
+           (source it from content/ or experience.yaml — do not invent) -->
+      <p class="record__body record__todo">Role — <em>to be inscribed</em></p>
+      {% endif %}
+
+      {% if realm.project.tags %}
+      <h3 class="record__label">Stack</h3>
+      <ul class="record__tags">
+        {% for t in realm.project.tags %}<li>{{ t }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if realm.record and realm.record.results %}
+      <h3 class="record__label">Results</h3>
+      <ul class="record__results">
+        {% for r in realm.record.results %}<li>{{ r }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if realm.project.links %}
+      <h3 class="record__label">Links</h3>
+      <ul class="record__links">
+        {% for l in realm.project.links %}
+        <li><a href="{{ l.url }}" rel="noopener">{{ l.label }} ↗</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% else %}
+      <!-- TODO: point data/realms.yaml -> realms[slug={{ realm.slug }}].content at a
+           content/projects/*.md file; blurb, tags, links, role and results
+           will render here automatically on the next build. -->
+      <p class="record__todo">Role — <em>to be inscribed</em></p>
+      <p class="record__todo">Stack — <em>to be inscribed</em></p>
+      <p class="record__todo">Results — <em>to be inscribed</em></p>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {% if realm.artifacts_out %}
+    <section class="artifacts" aria-label="Artifacts from the project">
+      <h2>Artifacts from the realm</h2>
+      {% for a in realm.artifacts_out %}
+      <figure class="artifact reveal">
+        <img src="{{ rel }}{{ a.src }}" alt="{{ a.caption }}"
+             width="{{ a.w }}" height="{{ a.h }}" loading="lazy" decoding="async">
+        <figcaption>{{ a.caption }}</figcaption>
+      </figure>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </article>
+</div>
+
+<a class="return" href="{{ rel }}" id="return">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" fill="currentColor" stroke="none"/>
+  </svg>
+  Return to the journey
+</a>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ rel }}static/js/realm.js" defer></script>
+{% endblock %}

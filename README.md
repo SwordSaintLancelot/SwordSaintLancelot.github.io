@@ -13,28 +13,41 @@ No runtime Python — the visitor always sees plain HTML served from the GitHub 
 ## Project layout
 
 ```
-build.py                       # the generator
+build.py                       # the generator (renders both sites)
 requirements.txt               # jinja2, pyyaml, python-frontmatter, markdown
-content/
+content/                       # SHARED data — both sites read from here
   site.yaml                    # profile, links, resume_pdf
   about.md                     # About blurb (prose → markdown)
-  skills.yaml
-  experience.yaml
-  publications.yaml
-  talks.yaml
-  education.yaml
-  awards.yaml
+  skills.yaml / experience.yaml / publications.yaml
+  talks.yaml / education.yaml / awards.yaml
+  realms.yaml                  # Traveler's Atlas: realm characters, palettes, chapters
   projects/
     *.md                       # one file per project: frontmatter (card metadata) + body (subpage prose)
-templates/
-  base.html                    # shared <head> / footer
-  index.html                   # composes sections
-  sections/*.html              # one file per page section
-static/
-  styles.css                   # minimalist academic styling
-  resume.pdf                   # served at static/resume.pdf
+classic/                       # the original clean portfolio
+  templates/
+    base.html                  # shared <head> / footer
+    index.html                 # composes sections
+    project.html               # project subpage
+    sections/*.html            # one file per page section
+  static/
+    styles.css                 # minimalist academic styling
+    js/site.js
+atlas/                         # The Traveler's Atlas storybook site
+  templates/
+    atlas_base.html            # atlas chrome (nav, footer, skip link)
+    realm.html                 # realm page (chapters + project record)
+    realms/*-hero.html         # per-realm layered parallax artwork
+  static/
+    atlas.css
+    js/atlas.js                # GSAP parallax + pinned chapters
+static/                        # SHARED assets, served at static/...
+  resume.pdf
   images/                      # headshot, project thumbnails, etc.
 docs/                          # build output (gitignored — CI produces it)
+  index.html                   # classic main page
+  projects/<slug>/             # classic project subpages
+  realms/<slug>/               # atlas realm pages
+  static/                      # shared + classic + atlas static, merged
 .github/workflows/deploy.yml   # build + deploy to GitHub Pages
 ```
 

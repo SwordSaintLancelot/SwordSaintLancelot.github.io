@@ -1,6 +1,11 @@
-"""Build the static portfolio site.
+"""Build the static portfolio site(s).
 
-Reads content/ + templates/ + static/ and writes docs/.
+Two sites share one content/ folder and one output tree (docs/):
+  classic/   -> the original clean portfolio (templates + its css/js)
+  atlas/     -> The Traveler's Atlas storybook site (templates + its css/js)
+  content/   -> shared data: YAML lists, about.md, projects/*.md, realms.yaml
+  static/    -> shared assets: images/, resume.pdf
+
 Run locally:   python build.py
 Preview:       python -m http.server -d docs 8000
 
@@ -8,11 +13,13 @@ Content layout under content/:
   *.yaml             -> merged at top level (yaml top-level keys become template vars)
   about.md           -> data["about"] (rendered HTML)
   projects/*.md      -> data["projects"] (list; frontmatter fields + body_html, sorted by order)
+  realms.yaml        -> data["atlas"] + data["realms"] (storybook layer)
 
 Output layout under docs/:
-  index.html                       -> the main page
-  projects/<slug>/index.html       -> one subpage per project
-  static/...                       -> copied verbatim
+  index.html                       -> the classic main page
+  projects/<slug>/index.html       -> one classic subpage per project
+  realms/<slug>/index.html         -> one atlas realm page per active realm
+  static/...                       -> shared assets + both sites' css/js, merged
 """
 from pathlib import Path
 import hashlib
@@ -127,8 +134,14 @@ def generate_cover_svg(slug: str, name: str) -> str:
     )
 
 ROOT = Path(__file__).parent
-TEMPLATES_DIR = ROOT / "templates"
-STATIC_DIR = ROOT / "static"
+CLASSIC_TEMPLATES_DIR = ROOT / "classic" / "templates"
+ATLAS_TEMPLATES_DIR = ROOT / "atlas" / "templates"
+# Static sources are merged into docs/static in this order (no name overlaps).
+STATIC_DIRS = [
+    ROOT / "static",             # shared assets: images/, resume.pdf
+    ROOT / "classic" / "static", # styles.css, js/site.js
+    ROOT / "atlas" / "static",   # atlas.css, js/atlas.js
+]
 CONTENT_DIR = ROOT / "content"
 OUT_DIR = ROOT / "docs"
 
@@ -227,9 +240,9 @@ def generate_og_svg(name: str, title: str, tagline: str) -> str:
     )
 
 
-def make_env():
+def make_env(templates_dir):
     return Environment(
-        loader=FileSystemLoader(TEMPLATES_DIR),
+        loader=FileSystemLoader(templates_dir),
         autoescape=select_autoescape(["html"]),
         trim_blocks=True,
         lstrip_blocks=True,
@@ -260,26 +273,63 @@ def render_project_page(env, data, project):
     return _STATIC_PATH_RE.sub(r'\1' + asset_prefix + r'\2', html)
 
 
-def write_output(env, data):
+def render_realm_page(env, data, realm, project):
+    """Render one Traveler's Atlas realm page (docs/realms/<slug>/).
+
+    Realm narrative comes from content/realms.yaml; factual project details
+    (links, tags, thumbnail) come from the matching content/projects/*.md
+    entry so nothing is duplicated.
+    """
+    asset_prefix = "../../"
+    page_title = f"{realm['realm_name']} — {realm['realm_subtitle']} | {data['profile']['name']}"
+    meta_description = (project or {}).get("blurb") or realm.get("tagline", "")
+    classic_url = f"{asset_prefix}projects/{project['slug']}/" if project else f"{asset_prefix}index.html"
+    return env.get_template("realm.html").render(
+        asset_prefix=asset_prefix,
+        page_title=page_title,
+        meta_description=meta_description,
+        realm=realm,
+        project=project,
+        classic_url=classic_url,
+        **data,
+    )
+
+
+def realm_pages_to_build(data):
+    """Realms that get a page: 'active' (and 'forming', once built)."""
+    return [r for r in data.get("realms", []) if r.get("status") == "active"]
+
+
+def write_output(classic_env, atlas_env, data):
     if OUT_DIR.exists():
         shutil.rmtree(OUT_DIR)
     OUT_DIR.mkdir()
 
-    # Main page
-    (OUT_DIR / "index.html").write_text(render_index(env, data), encoding="utf-8")
+    # Classic site: main page + project subpages
+    (OUT_DIR / "index.html").write_text(render_index(classic_env, data), encoding="utf-8")
 
-    # Project subpages
     for project in data.get("projects", []):
         slug = project.get("slug")
         if not slug:
             continue
         out_dir = OUT_DIR / "projects" / slug
         out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "index.html").write_text(render_project_page(env, data, project), encoding="utf-8")
+        (out_dir / "index.html").write_text(render_project_page(classic_env, data, project), encoding="utf-8")
 
-    # Static assets + Jekyll opt-out
-    if STATIC_DIR.exists():
-        shutil.copytree(STATIC_DIR, OUT_DIR / "static")
+    # Atlas site: realm pages
+    projects_by_slug = {p["slug"]: p for p in data.get("projects", []) if p.get("slug")}
+    for realm in realm_pages_to_build(data):
+        out_dir = OUT_DIR / "realms" / realm["slug"]
+        out_dir.mkdir(parents=True, exist_ok=True)
+        project = projects_by_slug.get(realm.get("project"))
+        (out_dir / "index.html").write_text(
+            render_realm_page(atlas_env, data, realm, project), encoding="utf-8"
+        )
+
+    # Static assets (shared + per-site, merged) + Jekyll opt-out
+    for static_dir in STATIC_DIRS:
+        if static_dir.exists():
+            shutil.copytree(static_dir, OUT_DIR / "static", dirs_exist_ok=True)
     (OUT_DIR / ".nojekyll").touch()
 
     # Generated assets — favicon and OG image. Written into the output static
@@ -303,9 +353,14 @@ def write_output(env, data):
 
 def main():
     data = load_content()
-    env = make_env()
-    write_output(env, data)
-    pages = ["index.html"] + [f"projects/{p['slug']}/index.html" for p in data.get("projects", []) if p.get("slug")]
+    classic_env = make_env(CLASSIC_TEMPLATES_DIR)
+    atlas_env = make_env(ATLAS_TEMPLATES_DIR)
+    write_output(classic_env, atlas_env, data)
+    pages = (
+        ["index.html"]
+        + [f"projects/{p['slug']}/index.html" for p in data.get("projects", []) if p.get("slug")]
+        + [f"realms/{r['slug']}/index.html" for r in realm_pages_to_build(data)]
+    )
     print(f"Built {len(pages)} pages:")
     for p in pages:
         print(f"  docs/{p}")

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="back-nav">
+  <a href="{{ asset_prefix }}index.html#proj-{{ project.slug }}">&larr; Back to all projects</a>
+</nav>
+
+<article class="project-page">
+  <header class="project-hero">
+    <div class="project-hero__cover" aria-hidden="true">
+      {% if project.thumbnail %}
+      <img src="{{ project.thumbnail }}" alt="">
+      {% elif project.cover_svg %}
+      {{ project.cover_svg | safe }}
+      {% else %}
+      <div class="project-hero__cover-placeholder"></div>
+      {% endif %}
+    </div>
+    <div class="project-hero__text">
+      <p class="project-hero__eyebrow">Project</p>
+      <h1 class="project-hero__title">{{ project.name }}</h1>
+      {% if project.blurb %}
+      <p class="project-hero__blurb">{{ project.blurb }}</p>
+      {% endif %}
+      {% if project.tags %}
+      <ul class="tags">
+        {% for t in project.tags %}<li class="tag">{{ t }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+      {% if project.links %}
+      {% import "_icons.html" as icons %}
+      <ul class="entry__links project-hero__links">
+        {% for l in project.links %}
+        <li>
+          <a class="btn btn--ghost" href="{{ l.url }}">
+            {{ icons.social(l.label) }}<span>{{ l.label }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if project.toc %}
+  <nav class="project-toc" aria-label="On this page">
+    <ul>
+      {% for item in project.toc %}
+      <li><a href="#{{ item.id }}" data-toc-target="{{ item.id }}">{{ item.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  <div class="project-body">
+    {% if project.body_html %}
+    {{ project.body_html | safe }}
+    {% else %}
+    <p class="meta">This project page has no body content yet — see frontmatter in <code>content/projects/{{ project.slug }}.md</code>.</p>
+    {% endif %}
+  </div>
+</article>
+{% endblock %}

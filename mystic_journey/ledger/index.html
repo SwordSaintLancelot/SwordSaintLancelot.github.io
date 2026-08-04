@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html{background:#050508}body{margin:0;background:#050508;color:#ece9f4}</style>
+<title>Traveler’s Ledger — Vishal Gaur</title>
+<meta name="description" content="The Traveler’s Ledger — notes from the journey. Coming soon.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vishal Gaur — The Traveler's Atlas">
+<meta property="og:title" content="Traveler’s Ledger — Vishal Gaur">
+<meta property="og:description" content="The Traveler’s Ledger — notes from the journey. Coming soon.">
+<link rel="stylesheet" href="../static/css/atlas.css">
+<meta name="robots" content="noindex">
+</head>
+<body class="realm ledger" >
+<script>
+(function () {
+  var h = document.documentElement;
+  h.classList.add("js");
+  try { if (!sessionStorage.getItem("mj_intro")) h.classList.add("intro"); } catch (e) {}
+})();
+</script>
+
+<header class="chrome" role="banner">
+  <a class="chrome__name" href="../">Vishal Gaur</a>
+  <nav class="chrome__nav" aria-label="Site">
+    <a href="../ledger/">Traveler’s Ledger</a>
+    <a href="/index.html" data-classic-view>Classic view</a>
+    <a href="../assets/resume.pdf">Résumé</a>
+  </nav>
+</header>
+<script>
+(function () {
+  if (/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) {
+    var a = document.querySelector("[data-classic-view]");
+    if (a) a.href = "/docs/index.html";
+  }
+})();
+</script>
+
+<div class="realm-bg" aria-hidden="true">
+  <picture>
+<source srcset="../assets/bg/nebula_blur.avif" type="image/avif">    <source srcset="../assets/bg/nebula_blur.webp" type="image/webp">
+    <img src="../assets/bg/nebula_blur.jpg" alt="" fetchpriority="high">
+  </picture>
+</div>
+
+<article class="realm-content realm-content--solo">
+  <header class="realm-head">
+    <h1>Traveler’s Ledger</h1>
+    <p class="realm-head__mythic">Notes from the journey</p>
+  </header>
+  <section class="narration">
+    <p class="narration__passage">The Ledger’s pages are still blank — the Wayfinder sharpens the quill.</p>
+    <p class="narration__passage narration__passage--quiet">Coming soon.</p>
+  </section>
+</article>
+
+<a class="return" href="../" id="return">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" fill="currentColor" stroke="none"/>
+  </svg>
+  Return to the journey
+</a>
+
+<script src="../static/js/realm.js" defer></script>
+</body>
+</html>

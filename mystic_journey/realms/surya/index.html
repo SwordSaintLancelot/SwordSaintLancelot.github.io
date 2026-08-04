@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html{background:#050508}body{margin:0;background:#050508;color:#ece9f4}</style>
+<title>Surya — Heliophysics Foundation Model · The Sunforge — Vishal Gaur</title>
+<meta name="description" content="Co-developed a generative architecture trained on multi-year solar image archives for solar flare and solar wind prediction. Distributed training on NVIDIA DGX / NAS clusters via SLURM and PBS.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vishal Gaur — The Traveler's Atlas">
+<meta property="og:title" content="Surya — Heliophysics Foundation Model · The Sunforge — Vishal Gaur">
+<meta property="og:description" content="Co-developed a generative architecture trained on multi-year solar image archives for solar flare and solar wind prediction. Distributed training on NVIDIA DGX / NAS clusters via SLURM and PBS.">
+<meta property="og:url" content="https://swordsaintlancelot.github.io/mystic_journey/realms/surya/">
+<meta property="og:image" content="https://swordsaintlancelot.github.io/mystic_journey/assets/realms/surya_800.webp">
+<link rel="stylesheet" href="../../static/css/atlas.css">
+<link rel="canonical" href="https://swordsaintlancelot.github.io/mystic_journey/realms/surya/">
+<link rel="preload" as="image" href="../../assets/bg/nebula_blur.avif">
+</head>
+<body class="realm realm--live" style="--accent:#FF8A3D; --glow:#FF5A1F">
+<script>
+(function () {
+  var h = document.documentElement;
+  h.classList.add("js");
+  try { if (!sessionStorage.getItem("mj_intro")) h.classList.add("intro"); } catch (e) {}
+})();
+</script>
+
+<header class="chrome" role="banner">
+  <a class="chrome__name" href="../../">Vishal Gaur</a>
+  <nav class="chrome__nav" aria-label="Site">
+    <a href="../../ledger/">Traveler’s Ledger</a>
+    <a href="/index.html" data-classic-view>Classic view</a>
+    <a href="../../assets/resume.pdf">Résumé</a>
+  </nav>
+</header>
+<script>
+(function () {
+  if (/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) {
+    var a = document.querySelector("[data-classic-view]");
+    if (a) a.href = "/docs/index.html";
+  }
+})();
+</script>
+
+<div class="realm-bg" aria-hidden="true">
+  <picture>
+<source srcset="../../assets/bg/nebula_blur.avif" type="image/avif">    <source srcset="../../assets/bg/nebula_blur.webp" type="image/webp">
+    <img src="../../assets/bg/nebula_blur.jpg" alt="" fetchpriority="high">
+  </picture>
+</div>
+
+<div class="realm-layout">
+  <aside class="keyart" aria-hidden="true">
+    <picture class="keyart__img">
+      <source srcset="../../assets/realms/surya_800.avif 800w, ../../assets/realms/surya.avif 1672w"
+              sizes="(max-width: 767px) 100vw, 30vw" type="image/avif">
+      <source srcset="../../assets/realms/surya_800.webp 800w, ../../assets/realms/surya.webp 1672w"
+              sizes="(max-width: 767px) 100vw, 30vw" type="image/webp">
+      <img src="../../assets/realms/surya_800.webp" alt="" fetchpriority="high" decoding="async">
+    </picture>
+    <div class="keyart__haze"></div>
+    <div class="keyart__glow"></div>
+    <div class="keyart__particles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </aside>
+
+  <article class="realm-content">
+    <header class="realm-head">
+      <h1>Surya — Heliophysics Foundation Model</h1>
+      <p class="realm-head__mythic">The Sunforge</p>
+    </header>
+
+    <section class="narration" aria-label="The chronicle">
+      <p class="narration__passage reveal">The Sunforge keeps fourteen years of the sun&#39;s memory — some 257 terabytes of it, gathered through thirteen windows onto the burning face: eight of AIA&#39;s colored glass, five of HMI&#39;s. None of the panes were ever shrunk; every reading is taken at the native 4096×4096, for a prophecy misread at small scale is no prophecy at all.</p>
+      <p class="narration__passage reveal">In the forge&#39;s heart a spatio-temporal transformer was raised — 366 million parameters of spectral gating and long–short attention, hammered into shape across 128 A100 furnaces, then taught to roll its visions forward hour over hour, and tuned with LoRA charms for each new kind of telling.</p>
+      <p class="narration__passage reveal">And the tellings hold. Flares are called a day before they break. The solar wind is read four days out, truer than the published charts. The extreme-ultraviolet spectrum is recited to within a breath of the operational oracle — from one model, not many.</p>
+    </section>
+
+    <section class="record" aria-label="Project record">
+      <h2>Project record</h2>
+      <p class="record__blurb">Co-developed a generative architecture trained on multi-year solar image archives for solar flare and solar wind prediction. Distributed training on NVIDIA DGX / NAS clusters via SLURM and PBS.</p>
+
+      <h3 class="record__label">Role</h3>
+      <p class="record__body">Co-developer (NASA IMPACT) — led exploratory data analysis on the multi-year solar image archives, trained and benchmarked transformer architectures on NVIDIA DGX and NAS clusters via SLURM and PBS, fine-tuned the foundation model with LoRA adapters for solar-flare and solar-wind prediction, and designed the convolutional baselines.</p>
+
+      <h3 class="record__label">Stack</h3>
+      <ul class="record__tags">
+<li>Foundation Models</li><li>Computer Vision</li><li>Distributed Training</li>      </ul>
+
+      <h3 class="record__label">Results</h3>
+      <ul class="record__results">
+<li>Solar-flare forecasting TSS 0.436 (24 h window, M/X threshold) vs. 0.358 for the AlexNet baseline; solar-wind RMSE 75.92 km/s at 4-day lead vs. 84–86 km/s for published WindNet variants.</li><li>Active-region segmentation IoU 0.768 with only 4.1 M trainable parameters, vs. UNet&#39;s 0.688 with 9.2 M.</li>      </ul>
+
+      <h3 class="record__label">Links</h3>
+      <ul class="record__links">
+        <li><a href="https://arxiv.org/pdf/2508.14112" rel="noopener">Paper ↗</a></li>
+        <li><a href="https://huggingface.co/nasa-ibm-ai4science/Surya-1.0" rel="noopener">HuggingFace ↗</a></li>
+      </ul>
+    </section>
+
+    <section class="artifacts" aria-label="Artifacts from the project">
+      <h2>Artifacts from the realm</h2>
+      <figure class="artifact reveal">
+        <img src="../../assets/artifacts/surya/fig01_sdo_panel.webp" alt="The instrument panel Surya reads: 8 AIA channels and 5 HMI products from the Solar Dynamics Observatory, used at native 4096×4096 resolution (May 2010 – Dec 2024, 12-minute cadence)."
+             width="1400" height="420" loading="lazy" decoding="async">
+        <figcaption>The instrument panel Surya reads: 8 AIA channels and 5 HMI products from the Solar Dynamics Observatory, used at native 4096×4096 resolution (May 2010 – Dec 2024, 12-minute cadence).</figcaption>
+      </figure>
+      <figure class="artifact reveal">
+        <img src="../../assets/artifacts/surya/fig02_surya_arch.webp" alt="Surya&#39;s architecture — spectral gating plus long–short attention blocks, 366 M parameters; 16×16 patches yield 65,536 tokens per full-resolution image."
+             width="1400" height="1118" loading="lazy" decoding="async">
+        <figcaption>Surya&#39;s architecture — spectral gating plus long–short attention blocks, 366 M parameters; 16×16 patches yield 65,536 tokens per full-resolution image.</figcaption>
+      </figure>
+      <figure class="artifact reveal">
+        <img src="../../assets/artifacts/surya/fig03_surya_io_grid.webp" alt="Inputs and forecast outputs across channels — zero-shot rollouts outperform persistence and learned-flow baselines before any task-specific tuning."
+             width="1400" height="2688" loading="lazy" decoding="async">
+        <figcaption>Inputs and forecast outputs across channels — zero-shot rollouts outperform persistence and learned-flow baselines before any task-specific tuning.</figcaption>
+      </figure>
+    </section>
+  </article>
+</div>
+
+<a class="return" href="../../" id="return">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" fill="currentColor" stroke="none"/>
+  </svg>
+  Return to the journey
+</a>
+
+<script src="../../static/js/realm.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+# ============================================================================
+# The Traveler's Atlas — single source of truth for the mystic_journey site.
+#
+# Everything display-related lives here: names, teasers, palettes, positions,
+# character anchors. Templates NEVER hardcode realm names — rename freely.
+#
+# Factual project content (role, results, links, body text) is NOT duplicated
+# here: realms with a `content:` path pull frontmatter + body from that file
+# in the repo's shared content/ folder (read-only) at build time.
+#
+# status values:
+#   live         -> full realm page from real content
+#   in-progress  -> keyart exists, content pending; island dimmer/hazier,
+#                   realm page is a structured shell with TODO placeholders
+#   horizon      -> upcoming work; dimmest island, capabilities-only text
+#   stub         -> placeholder island + "coming soon" page (wanderings)
+#
+# position: base viewport-percentage coords (x → right, y → down), jittered
+# ±2.5% by JS on each load with a minimum-distance rule.
+# size: lg | md | sm      depth: near | mid | far
+# ============================================================================
+
+site:
+  owner: "Vishal Gaur"
+  page_title: "Vishal Gaur — ML Engineer & Researcher | The Traveler's Atlas"
+  meta_description: >-
+    Portfolio of Vishal Gaur, machine learning engineer and researcher —
+    foundation models for heliophysics, weather & climate, and Earth
+    observation at NASA, plus production ML systems. Explore each project
+    as a realm in the Traveler's Atlas.
+  # TODO: confirm the deployed base URL for mystic_journey before going live
+  # (used for sitemap.xml and og:url / og:image absolute links).
+  base_url: "https://swordsaintlancelot.github.io/mystic_journey"
+  classic_url: "/index.html"        # the existing classic site (docs/index.html when deployed)
+  resume_src: "static/resume.pdf"   # copied into mystic_journey/assets/ at build
+  background:
+    webp: "images/pillars_of_creation_3840x2160_q82.webp"
+    avif: "images/pillars_of_creation_3840x2160_q60.avif"
+
+guide:
+  name: "The Wayfinder"
+  image_webp: "images/character.webp"
+  image_avif: "images/character.avif"
+  greeting: "Hey, welcome traveler! Which project would you like to see?"
+  hint: "Select any realm to unlock the mysteries of the project."
+  # Hand-picked anchor positions (viewport %). One per load, chosen at random.
+  # None sit inside the wanderings cluster bounds (x < 30, y > 62) except the
+  # single deliberate "visiting" anchor at its edge.
+  anchors:
+    - { x: 12, y: 26, remark: "Every one of these worlds began as a dataset." }
+    - { x: 50, y: 30, remark: "The pillars never stop burning. Neither does the training run." }
+    - { x: 88, y: 46, remark: "Some realms are still forming. Give them time." }
+    - { x: 64, y: 78, remark: "I have walked every realm here. Ask me anything." }
+    - { x: 34, y: 58, remark: "Charts, checkpoints, chronicles — I keep them all." }
+    - { x: 78, y: 16, remark: "From up here you can see how the projects connect." }
+    - { x: 30, y: 80, visiting: true, remark: "Even a traveler rests sometimes. These are the wanderings." }
+
+clusters:
+  works:
+    # spread across most of the viewport; no label
+    bounds: { x_min: 8, x_max: 93, y_min: 12, y_max: 88 }
+  wanderings:
+    caption: "Wanderings"        # whisper-quiet, fades in after the intro
+    warm: true                   # warmer tint on these islands
+    bounds: { x_min: 6, x_max: 27, y_min: 64, y_max: 90 }
+
+realms:
+  # ------------------------------------------------------------------- works
+  - slug: surya
+    cluster: works
+    status: live
+    mythic_name: "The Sunforge"
+    professional_name: "Surya — Heliophysics Foundation Model"
+    teaser: "In the Sunforge, fourteen years of the sun's moods are read like prophecy — flares called before they break."
+    palette: { accent: "#FF8A3D", glow: "#FF5A1F" }
+    position: { x: 70, y: 22 }
+    size: lg
+    depth: near
+    keyart: { webp: "images/helio_realm.webp", avif: "images/helio_realm.avif" }
+    content: "content/projects/surya.md"
+    narration:
+      - >-
+        The Sunforge keeps fourteen years of the sun's memory — some 257
+        terabytes of it, gathered through thirteen windows onto the burning
+        face: eight of AIA's colored glass, five of HMI's. None of the panes
+        were ever shrunk; every reading is taken at the native 4096×4096, for
+        a prophecy misread at small scale is no prophecy at all.
+      - >-
+        In the forge's heart a spatio-temporal transformer was raised — 366
+        million parameters of spectral gating and long–short attention,
+        hammered into shape across 128 A100 furnaces, then taught to roll its
+        visions forward hour over hour, and tuned with LoRA charms for each
+        new kind of telling.
+      - >-
+        And the tellings hold. Flares are called a day before they break.
+        The solar wind is read four days out, truer than the published
+        charts. The extreme-ultraviolet spectrum is recited to within a
+        breath of the operational oracle — from one model, not many.
+    record:
+      role: >-
+        Co-developer (NASA IMPACT) — led exploratory data analysis on the
+        multi-year solar image archives, trained and benchmarked transformer
+        architectures on NVIDIA DGX and NAS clusters via SLURM and PBS,
+        fine-tuned the foundation model with LoRA adapters for solar-flare
+        and solar-wind prediction, and designed the convolutional baselines.
+      results:
+        - >-
+          Solar-flare forecasting TSS 0.436 (24 h window, M/X threshold) vs.
+          0.358 for the AlexNet baseline; solar-wind RMSE 75.92 km/s at
+          4-day lead vs. 84–86 km/s for published WindNet variants.
+        - >-
+          Active-region segmentation IoU 0.768 with only 4.1 M trainable
+          parameters, vs. UNet's 0.688 with 9.2 M.
+    artifacts:
+      - src: "static/images/projects/surya/fig01_sdo_panel.png"
+        caption: >-
+          The instrument panel Surya reads: 8 AIA channels and 5 HMI products
+          from the Solar Dynamics Observatory, used at native 4096×4096
+          resolution (May 2010 – Dec 2024, 12-minute cadence).
+      - src: "static/images/projects/surya/fig02_surya_arch.png"
+        caption: >-
+          Surya's architecture — spectral gating plus long–short attention
+          blocks, 366 M parameters; 16×16 patches yield 65,536 tokens per
+          full-resolution image.
+      - src: "static/images/projects/surya/fig03_surya_io_grid.png"
+        caption: >-
+          Inputs and forecast outputs across channels — zero-shot rollouts
+          outperform persistence and learned-flow baselines before any
+          task-specific tuning.
+
+  - slug: lunar
+    cluster: works
+    status: in-progress
+    mythic_name: "The Moonwell"
+    professional_name: "Lunar Foundation Model"
+    teaser: "A silver realm still condensing out of the dark — its chronicle is not yet written."
+    palette: { accent: "#B8C9E6", glow: "#52709F" }
+    position: { x: 87, y: 34 }
+    size: md
+    depth: mid
+    keyart:
+      webp: "images/lunar_foundation_model_realm_surface_front.webp"
+      avif: "images/lunar_foundation_model_realm_surface_front.avif"
+    content: null   # <- point this at a content/projects/*.md file when ready
+
+  - slug: prithvi-wxc
+    cluster: works
+    status: live
+    mythic_name: "The Stormloom"
+    professional_name: "Prithvi WxC — Weather & Climate Foundation Model"
+    teaser: "High in the Stormloom, 2.3 billion threads weave forty years of weather into forecast."
+    palette: { accent: "#6FA1E8", glow: "#2F5DA8" }
+    position: { x: 40, y: 18 }
+    size: lg
+    depth: mid
+    keyart: { webp: "images/weather_foundation_model_realm_4k.webp", avif: "images/weather_foundation_model_realm_4k.avif" }
+    content: "content/projects/prithvi-wxc.md"
+    narration:
+      - >-
+        High above the clouds the Stormloom works without rest. Forty years
+        of the world's weather — MERRA-2, 1980 to 2019, one hundred sixty
+        atmospheric threads — feed the loom every three hours, petabytes of
+        it carried along pipelines built to cross computing halls that
+        never touch the open internet.
+      - >-
+        The loom itself holds 2.3 billion knots: twenty-five encoder and five
+        decoder blocks that learned, first, to restore the sky from torn
+        cloth — masked reconstruction — and then to weave it forward in time.
+        Its quiet secret: it does not predict the weather itself, but the
+        weather's deviation from the long pattern, the climatology.
+      - >-
+        Show it five percent of the sky and it restores the rest. Set it on
+        Hurricane Ida's trail and it tracks her to within 64 kilometers where
+        older looms wandered by two hundred. Ask it to sharpen a coarse map
+        sixfold and it answers within three-quarters of a degree kelvin.
+    record:
+      role: >-
+        Computer Scientist (NASA IMPACT) — designed and executed end-to-end
+        data processing pipelines for the petabyte-scale MERRA-2 reanalysis
+        time-series across isolated computing environments, and applied
+        LoRA-based parameter-efficient fine-tuning to build task-specific
+        downstream models from the pretrained backbone.
+      results:
+        - >-
+          Hurricane Ida track forecasting: mean track error 63.9 km vs.
+          201.9 km (MERRA-2 FourCastNet) and 262.3 km (ERA5 FourCastNet);
+          landfall error under 5 km.
+        - >-
+          Statistical downscaling: 6× MERRA-2 T2m RMSE of 0.73 K — roughly
+          4× better than nearest-neighbor and bilinear interpolation
+          baselines.
+    artifacts:
+      - src: "static/images/projects/prithvi-wxc/fig04_prithvi_wxc_core.png"
+        caption: >-
+          The Prithvi WxC core — a 2.3 B-parameter encoder–decoder
+          transformer over MERRA-2, modeling deviation from climatology
+          rather than raw state.
+      - src: "static/images/projects/prithvi-wxc/fig05_prithvi_reconstruction.png"
+        caption: >-
+          Zero-shot reconstruction: atmospheric state recovered from as
+          little as 5% of inputs, with no task-specific tuning.
+      - src: "static/images/projects/prithvi-wxc/fig06_hurricane_ida.png"
+        caption: >-
+          Hurricane Ida (Cat 4) track forecast — 63.9 km mean track error
+          vs. 201.9–262.3 km for FourCastNet baselines.
+      - src: "static/images/projects/prithvi-wxc/fig07_downscaling.png"
+        caption: >-
+          Statistical downscaling of surface temperature: 0.73 K RMSE at 6×
+          resolution over interpolation baselines at ~3 K.
+      - src: "static/images/projects/prithvi-wxc/fig09_momentum_flux.png"
+        caption: >-
+          Gravity-wave momentum-flux parameterization — spatial correlation
+          0.99 (Andes) and 0.97 (Southern Ocean).
+
+  - slug: prithvi-eo
+    cluster: works
+    status: live
+    mythic_name: "The Emerald Meridian"
+    professional_name: "Prithvi EO 2.0 — Earth Observation Foundation Model"
+    teaser: "From the Emerald Meridian the living Earth is mapped — floods, fires, forests, and fields."
+    palette: { accent: "#7FC24E", glow: "#3E7A2A" }
+    position: { x: 60, y: 52 }
+    size: lg
+    depth: near
+    keyart:
+      webp: "images/prithvi_earth_observation_foundation_model_realm_4k.webp"
+      avif: "images/prithvi_earth_observation_foundation_model_realm_4k.avif"
+    content: "content/projects/prithvi-eo.md"
+    narration:
+      - >-
+        From the Emerald Meridian the whole living Earth is set down in the
+        atlas: 4.2 million glimpses drawn from the Harmonized
+        Landsat–Sentinel archive, 2014 to 2023, each glimpse four seasons
+        deep and six colors wide, chosen so that every kind of land — every
+        ecoregion — has its page.
+      - >-
+        The cartographer here is a masked autoencoder taught to see in
+        space and time at once, with the date and the place whispered into
+        its tokens. It was raised in two sizes — 300 and 600 million
+        parameters — on the JUWELS Booster supercomputer, and it travels
+        with its own toolkit, TerraTorch, so any fieldworker may fine-tune
+        it on a single GPU.
+      - >-
+        Its maps hold under flood and fire: waters traced at 83.1% IoU,
+        burn scars at 83.2%, landslides found from only fifty examples —
+        and across the twelve trials of GEO-Bench, roughly eight parts in a
+        hundred better than the atlas that came before it.
+    record:
+      role: null   # <!-- TODO: role not stated in content/ — add to
+                   # content/projects/prithvi-eo.md or experience.yaml and
+                   # mirror it here -->
+      results:
+        - >-
+          ~8% overall improvement over Prithvi-EO-1.0 on the 12-task
+          GEO-Bench suite; top performer among the released 300 M / 600 M
+          variants.
+        - >-
+          Flood mapping water IoU 83.1% (vs. 79.6% for EO-1.0) and wildfire
+          burn-scar IoU 83.2% (vs. 76.8%).
+    artifacts:
+      - src: "static/images/projects/prithvi-eo/fig10_prithvi_eo2.png"
+        caption: >-
+          Prithvi EO 2.0 — masked autoencoder with 3D patch/positional
+          embeddings and temporal–location (TL) metadata encoding.
+      - src: "static/images/projects/prithvi-eo/fig11_segmentation.png"
+        caption: >-
+          Downstream segmentation from the benchmark suite — flood, burn
+          scar, and crop tasks fine-tuned from the shared backbone.
+      - src: "static/images/projects/prithvi-eo/fig12_agb_prediction.png"
+        caption: >-
+          Above-ground biomass regression — RMSE 33.40 Mg/ha using 12
+          Sentinel-2 timestamps.
+
+  - slug: us-ghg-center
+    cluster: works
+    status: live
+    mythic_name: "The Veiled Currents"
+    professional_name: "US Greenhouse Gas Center"
+    teaser: "Here the unseen breath of the world — carbon and methane — is made visible to any who look."
+    palette: { accent: "#3BC4B8", glow: "#1E7A72" }
+    position: { x: 28, y: 42 }
+    size: md
+    depth: mid
+    keyart: { webp: "images/greenhouse_gas_center_realm_4k.webp", avif: "images/greenhouse_gas_center_realm_4k.avif" }
+    content: "content/projects/us-ghg-center.md"
+    narration:
+      - >-
+        In this realm the air itself keeps ledgers no eye can read — carbon
+        rising from cities, methane slipping from unseen seams. Four great
+        houses kept their measurements apart: NASA with its satellites,
+        NOAA with its reference network, the EPA with its inventories, NIST
+        with its urban test beds. The Alchemist's task was to gather them
+        into one hall.
+      - >-
+        The instruments are quiet and exact: Airflow-orchestrated pipelines
+        that take each house's raw geospatial offerings and transmute them —
+        into Cloud-Optimized GeoTIFFs that stream from object storage, into
+        a STAC catalog where any seeker may query them, with a JupyterHub
+        standing beside the data so the analysis never has to carry it home.
+      - >-
+        The hall opened its doors at COP28, in December 2023, presented by
+        the NASA and EPA Administrators alongside the White House's national
+        Greenhouse Gas Monitoring Strategy — every dataset, algorithm, and
+        line of code released open, for scientists, policymakers, and the
+        public alike.
+    record:
+      role: >-
+        Data engineer (NASA IMPACT) — automated the end-to-end
+        transformation pipelines converting geospatial data to
+        Cloud-Optimized GeoTIFFs, orchestrated ingestion workflows with
+        Apache Airflow and cataloged outputs into STAC-compliant metadata
+        stores, and managed the AWS infrastructure (Lambda, API Gateway,
+        EC2) backing the platform.
+      results:
+        - >-
+          Platform unveiled at COP28 (Dec 2023) alongside the White House
+          national GHG Monitoring Strategy, making curated datasets from
+          four federal agencies programmatically accessible.
+        - >-
+          Fully automated ingest → COG transformation → STAC registration
+          pipeline, eliminating manual processing of contributed datasets.
+    artifacts:
+      - src: "static/images/projects/us-ghg-center/pipeline_approach.png"
+        caption: >-
+          The ingest pipeline — Airflow-orchestrated transformation of
+          agency data to Cloud-Optimized GeoTIFFs, registered into the
+          public STAC catalog.
+      - src: "static/images/projects/us-ghg-center/platform_results.png"
+        caption: >-
+          The US GHG Center platform at earth.gov/ghgcenter — dashboard,
+          STAC data services, and a JupyterHub analytics environment beside
+          the data.
+
+  - slug: sanoma-recommender
+    cluster: works
+    status: live
+    mythic_name: "The Whispering Stacks"
+    professional_name: "Sanoma Media Finland — Recommendation Platform"
+    teaser: "In the Whispering Stacks, the shelves learn which story you will reach for next."
+    palette: { accent: "#E0AC4F", glow: "#9A6A1F" }
+    position: { x: 80, y: 68 }
+    size: md
+    depth: near
+    keyart:
+      webp: "images/sanoma_media_finland_recommendation_system_realm_4k.webp"
+      avif: "images/sanoma_media_finland_recommendation_system_realm_4k.avif"
+    content: "content/projects/sanoma-recommender.md"
+    narration:
+      - >-
+        The Whispering Stacks serve two theaters at once — ruutu.fi, where
+        moving pictures play, and supla.fi, where voices are kept. The
+        shelves listen for the faintest signals: what was watched, what was
+        heard, how long a visitor lingered, what they returned for. From
+        these whispers, ALS matrix factorization distills every reader and
+        every story into vectors, and matches them at the moment of asking.
+      - >-
+        The Librarian's work was modernization, not founding. The old
+        catalogues were written in Scala; they were carried, shelf by shelf,
+        into Python, where the rest of the scholars worked. And because a
+        podcast listener does not behave like a video watcher, new
+        experiments tuned the whispering differently for supla's rhythms —
+        its catalog, its sparsity, its habits of return.
+      - >-
+        The scores only matter when they reach a reader's hands, so the
+        Librarian also tended the carousels themselves — how algorithmic
+        rows and the editors' chosen rows share the shelf — so the right
+        story arrives in a form worth reaching for.
+    record:
+      role: >-
+        Data Scientist (Sanoma Media Finland) — worked on the production
+        ALS collaborative-filtering recommender inside the Sanoma Unified
+        Recommendation Framework, integrated with content delivery;
+        refactored legacy Scala pipelines into Python, built ALS
+        proof-of-concepts for supla.fi, and contributed carousel UX
+        feedback with the product team.
+      results:
+        - >-
+          Recommendations served in production through the Unified
+          Recommendation Framework, scored at request time across ruutu.fi
+          and supla.fi.
+        - >-
+          Scala→Python pipeline modernization created reusable components
+          that accelerated iteration for the data-science team.
+    artifacts:
+      - src: "static/images/projects/sanoma-recommender/system-overview.png"
+        caption: >-
+          System overview — events from ruutu.fi and supla.fi feed the
+          Unified Recommendation Framework: feature pipeline → ALS →
+          request-time scoring into the streaming UI's algorithmic rows.
+      - src: "static/images/projects/sanoma-recommender/als-concept.png"
+        caption: >-
+          ALS matrix factorization — the sparse user–item interaction
+          matrix approximated as U × Vᵀ with k latent factors.
+      - src: "static/images/projects/sanoma-recommender/carousels.png"
+        caption: >-
+          How algorithmic and editorial rows coexist — hero banner,
+          "Recommended for you," and editorially managed rows in one UI.
+
+  - slug: heavy-machinery
+    cluster: works
+    status: horizon
+    mythic_name: "The Sleeping Colossi"
+    professional_name: "Predictive Maintenance for Heavy Machinery — IoT Sensor Analytics"
+    teaser: "On the horizon: iron giants whose heartbeats are counted from afar."
+    palette: { accent: "#D89A55", glow: "#7A4A2A" }
+    position: { x: 46, y: 72 }
+    size: sm
+    depth: far
+    keyart: null     # no keyart yet — rendered as a dim silhouette island
+    content: null
+    # capabilities-only copy (sourced from content/experience.yaml — no client specifics)
+    capabilities: >-
+      IoT sensor telemetry analysis for industrial machinery — anomaly and
+      pattern detection over large-scale device data, with cloud-based
+      analysis workflows on AWS (Athena, S3, EC2).
+
+  # ------------------------------------------------------------- wanderings
+  - slug: wanderers-trail
+    cluster: wanderings
+    status: stub
+    mythic_name: "Wanderer's Trail"
+    professional_name: "Travels"
+    teaser: "Paths walked beyond the work — this trail is still being charted."
+    palette: { accent: "#F0B26B", glow: "#8A5A2A" }
+    position: { x: 13, y: 72 }
+    size: sm
+    depth: near
+    keyart: null
+    content: null
+
+  - slug: quiet-harbor
+    cluster: wanderings
+    status: stub
+    mythic_name: "The Quiet Harbor"
+    professional_name: "Hobbies"
+    teaser: "A small harbor for what happens between journeys — ships arriving soon."
+    palette: { accent: "#E89D7A", glow: "#8A4A3A" }
+    position: { x: 22, y: 83 }
+    size: sm
+    depth: mid
+    keyart: null
+    content: null

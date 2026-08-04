@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Traveler’s Ledger — {{ site.owner }}{% endblock %}
+{% block meta_description %}The Traveler’s Ledger — notes from the journey. Coming soon.{% endblock %}
+
+{% block head_extra %}
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block body_class %}realm ledger{% endblock %}
+
+{% block content %}
+<div class="realm-bg" aria-hidden="true">
+  <picture>
+    {% if gen.blur_avif %}<source srcset="{{ rel }}{{ gen.blur_avif }}" type="image/avif">{% endif %}
+    <source srcset="{{ rel }}{{ gen.blur_webp }}" type="image/webp">
+    <img src="{{ rel }}{{ gen.blur_jpg or gen.blur_webp }}" alt="" fetchpriority="high">
+  </picture>
+</div>
+
+<article class="realm-content realm-content--solo">
+  <header class="realm-head">
+    <h1>Traveler’s Ledger</h1>
+    <p class="realm-head__mythic">Notes from the journey</p>
+  </header>
+  <section class="narration">
+    <p class="narration__passage">The Ledger’s pages are still blank — the Wayfinder sharpens the quill.</p>
+    <p class="narration__passage narration__passage--quiet">Coming soon.</p>
+  </section>
+</article>
+
+<a class="return" href="{{ rel }}" id="return">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" fill="currentColor" stroke="none"/>
+  </svg>
+  Return to the journey
+</a>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ rel }}static/js/realm.js" defer></script>
+{% endblock %}

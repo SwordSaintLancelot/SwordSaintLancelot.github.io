@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{# Critical inline CSS: the dark ground must exist before ANY stylesheet loads,
+   so the browser's white flash between page loads can never appear. #}
+<style>html{background:#050508}body{margin:0;background:#050508;color:#ece9f4}</style>
+<title>{% block title %}{{ site.page_title }}{% endblock %}</title>
+<meta name="description" content="{% block meta_description %}{{ site.meta_description }}{% endblock %}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.owner }} — The Traveler's Atlas">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ self.meta_description() }}">
+{% block og_extra %}{% endblock %}
+<link rel="stylesheet" href="{{ rel }}static/css/atlas.css">
+{% block head_extra %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}" {% block body_attrs %}{% endblock %}>
+{# Runs during parse, before first paint: gates hidden-until-animated styles
+   so a no-JS visit sees a complete static page, and the arrival choreography
+   only ever plays once per session. #}
+<script>
+(function () {
+  var h = document.documentElement;
+  h.classList.add("js");
+  try { if (!sessionStorage.getItem("mj_intro")) h.classList.add("intro"); } catch (e) {}
+})();
+</script>
+
+<header class="chrome" role="banner">
+  <a class="chrome__name" href="{{ rel if rel else './' }}">{{ site.owner }}</a>
+  <nav class="chrome__nav" aria-label="Site">
+    <a href="{{ rel }}ledger/">Traveler’s Ledger</a>
+    <a href="{{ site.classic_url }}" data-classic-view>Classic view</a>
+    <a href="{{ rel }}{{ gen.resume }}">Résumé</a>
+  </nav>
+</header>
+{# Local preview serves the repo root, where the classic site lives under
+   /docs/ instead of at the web root. Deployed pages keep the data-file URL. #}
+<script>
+(function () {
+  if (/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) {
+    var a = document.querySelector("[data-classic-view]");
+    if (a) a.href = "/docs/index.html";
+  }
+})();
+</script>
+
+{% block content %}{% endblock %}
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

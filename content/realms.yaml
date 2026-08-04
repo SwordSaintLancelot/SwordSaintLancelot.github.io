@@ -1,0 +1,193 @@
+# The Traveler's Atlas — realm definitions.
+#
+# Each realm maps one project/domain to a storybook realm. Factual details
+# (links, tags, thumbnail, blurb) are NOT duplicated here: when a realm has a
+# `project` slug, the templates pull those from content/projects/<slug>.md
+# frontmatter. This file holds only the atlas-specific layer: character,
+# palette, narrative chapters, and the recruiter-facing record summary.
+#
+# status: active   -> realm page is built at /realms/<slug>/
+#         planned  -> content exists, realm page not built yet (node visible, unlinked)
+#         forming  -> project in progress; page built half-formed (Chandra)
+#         horizon  -> upcoming chapter; marked "where the Traveler journeys next"
+#
+# palette keys are CSS color values injected as custom properties on the page:
+#   bg (realm base), accent (primary), accent-soft (tints/text on dark), glow (large gradients)
+
+atlas:
+  title: "The Traveler's Atlas"
+  guide:
+    name: "The Cartographer of Worlds"
+  movements:
+    - { key: celestial, name: "Celestial" }
+    - { key: earthly,   name: "Earthly" }
+    - { key: human,     name: "Human-made" }
+
+realms:
+  # ---------------------------------------------------------------- Celestial
+  - slug: surya
+    status: active
+    movement: celestial
+    project: surya
+    realm_name: "The Solar Forge"
+    realm_subtitle: "Surya — Heliophysics Foundation Model"
+    character:
+      name: "The Oracle of Flames"
+      epithet: "who reads the flares as prophecy"
+    palette:
+      bg: "#0A0505"
+      accent: "#FF7A2F"
+      accent-soft: "#FFC9A3"
+      glow: "#FF4D00"
+    tagline: "A realm of molten gold and coronal fire, where the sun's memory is kept and its tempers foretold."
+    chapters:
+      - title: "The Reading of Flames"
+        scene: flare
+        passage: >-
+          "Welcome, Traveler," says the Oracle, her eyes twin embers. "Others
+          see fire. I see language. Every flare is a sentence the sun has not
+          yet finished — and I have learned to read ahead."
+        fact: >-
+          Surya is a 366M-parameter generative foundation model for
+          heliophysics, built with NASA, IBM, NVIDIA, and CSPAR to forecast
+          solar flares, solar wind, and EUV spectra for space weather.
+      - title: "The Archive of Fire"
+        scene: vault
+        passage: >-
+          She leads you into vaults of banked light. "Fourteen years of the
+          sun's moods, kept whole. Thirteen windows onto its face — none of
+          them dimmed, none of them shrunk. To read a prophecy true, you must
+          keep every letter."
+        fact: >-
+          Trained on ~257 TB of SDO imagery — 8 AIA and 5 HMI channels,
+          May 2010 to Dec 2024, at full native 4096×4096 resolution, 12-minute
+          cadence, with splits aligned to solar cycles to prevent leakage.
+      - title: "The Hundred Smiths"
+        scene: forge
+        passage: >-
+          Below the vaults, the forge proper: a hundred smiths and more,
+          hammers rising and falling in a single rhythm. "No one smith could
+          shape this," the Oracle says. "The craft is in keeping them striking
+          as one."
+        fact: >-
+          Pretrained in two phases on NVIDIA DGX and NAS clusters — 128× A100
+          GPUs for time-advancement, then progressive autoregressive rollout
+          tuning on 64 GPUs — with distributed workflows managed across SLURM
+          and PBS schedulers.
+      - title: "The Prophecies, Proven"
+        scene: ledger
+        passage: >-
+          "You ask if the readings hold." The Oracle unrolls a ledger of past
+          storms — each one called before it broke. "The forge does not
+          promise. It is measured. Judge it by what came true."
+        fact: >-
+          Flare forecasting TSS 0.436 (AlexNet 0.358); solar-wind RMSE
+          75.92 km/s vs. 84–86 for published WindNet variants; EUV spectra
+          MAPE 1.48%, matching the operational FISM2 model; active-region
+          segmentation IoU 0.768 with 4.1M trainable parameters vs. UNet's
+          0.688 with 9.2M.
+    record:
+      role: >-
+        Co-developer (NASA IMPACT) — led exploratory data analysis on the
+        multi-year solar archive, trained and benchmarked transformer
+        architectures on DGX/NAS clusters via SLURM and PBS, fine-tuned the
+        foundation model with LoRA adapters for solar-flare and solar-wind
+        prediction, and built the convolutional baselines.
+      extra_links:
+        - { label: Code, url: "https://github.com/NASA-IMPACT/Surya" }
+
+  - slug: chandra
+    status: forming
+    movement: celestial
+    realm_name: "The Silver Mirror"
+    realm_subtitle: "Chandra — Lunar Foundation Model (in progress)"
+    character:
+      name: "The Moon Sage"
+      epithet: "keeper of the cratered memory"
+    palette:
+      bg: "#05070D"
+      accent: "#AFC3E1"
+      accent-soft: "#DCE6F5"
+      glow: "#3D5A8A"
+    tagline: "A silent monochrome realm, half-drawn — its chronicle still being written."
+
+  # ------------------------------------------------------------------ Earthly
+  - slug: prithvi-wxc
+    status: planned
+    movement: earthly
+    project: prithvi-wxc
+    realm_name: "The Sky Citadel"
+    realm_subtitle: "Prithvi WxC — Weather & Climate Foundation Model"
+    character:
+      name: "The Storm Weaver"
+      epithet: "who weaves the weather on a great loom"
+    palette:
+      bg: "#060A12"
+      accent: "#5B8DD6"
+      accent-soft: "#C8DAF2"
+      glow: "#2E4E86"
+    tagline: "A citadel above the clouds, where data streams are threads and the loom never rests."
+
+  - slug: prithvi-eo
+    status: planned
+    movement: earthly
+    project: prithvi-eo
+    realm_name: "The Living Atlas"
+    realm_subtitle: "Prithvi EO 2.0 — Earth Observation Foundation Model"
+    character:
+      name: "The Sky Cartographer"
+      epithet: "who maps the world from the back of a great hawk"
+    palette:
+      bg: "#070A06"
+      accent: "#8FB43C"
+      accent-soft: "#DCE8B8"
+      glow: "#3E5C24"
+    tagline: "The world seen from above — floods, fires, forests, and fields, all set down in the atlas."
+
+  - slug: us-ghg-center
+    status: planned
+    movement: earthly
+    project: us-ghg-center
+    realm_name: "The Realm of Unseen Currents"
+    realm_subtitle: "US Greenhouse Gas Center"
+    character:
+      name: "The Alchemist"
+      epithet: "who makes the invisible visible"
+    palette:
+      bg: "#050B0C"
+      accent: "#2FB8AE"
+      accent-soft: "#B9E9E4"
+      glow: "#6A3FA0"
+    tagline: "Faint colored ribbons drift through the air here, revealed only by her instruments."
+
+  # --------------------------------------------------------------- Human-made
+  - slug: sanoma-recommender
+    status: planned
+    movement: human
+    project: sanoma-recommender
+    realm_name: "The Library of Echoes"
+    realm_subtitle: "Sanoma — Recommendation Platform"
+    character:
+      name: "The Librarian"
+      epithet: "who knows which story you secretly want next"
+    palette:
+      bg: "#0E0905"
+      accent: "#D9A441"
+      accent-soft: "#F2DDB3"
+      glow: "#7A4A17"
+    tagline: "A vast whispering library where the shelves rearrange themselves as you pass."
+
+  - slug: iron-titans
+    status: horizon
+    movement: human
+    realm_name: "The Iron Titans"
+    realm_subtitle: "Heavy Machinery & Predictive Maintenance — upcoming"
+    character:
+      name: "The Listener of Iron"
+      epithet: "who hears the giants' pulse through their frames"
+    palette:
+      bg: "#0A0908"
+      accent: "#E8A13C"
+      accent-soft: "#E3D9CC"
+      glow: "#8A2F1F"
+    tagline: "The realm on the horizon — colossal giants asleep in the fog, where the Traveler journeys next."

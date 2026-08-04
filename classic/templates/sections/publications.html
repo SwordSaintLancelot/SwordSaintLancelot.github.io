@@ -1,0 +1,26 @@
+{% import "_icons.html" as icons %}
+<section id="publications">
+  <h2>Publications</h2>
+  <ul class="entries">
+    {% for pub in publications %}
+    <li class="entry">
+      <div class="entry__main">
+        <h3 class="entry__title">{{ pub.title }}</h3>
+        <p class="entry__meta">{{ pub.venue }}{% if pub.year %} &middot; {{ pub.year }}{% endif %}</p>
+      </div>
+      {% if pub.links %}
+      <ul class="entry__links">
+        {% for l in pub.links %}
+        <li>
+          <a class="btn btn--ghost" href="{{ l.url }}">
+            {{ icons.social(l.label) }}
+            <span>{{ l.label }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>

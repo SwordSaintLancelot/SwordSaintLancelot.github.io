@@ -1,0 +1,10 @@
+<section id="education">
+  <h2>Education</h2>
+  {% for e in education %}
+  <article>
+    <h3>{{ e.degree }}</h3>
+    <p class="meta">{{ e.school }} &middot; {{ e.location }} &middot; {{ e.dates }}</p>
+    {% if e.notes %}<p>{{ e.notes }}</p>{% endif %}
+  </article>
+  {% endfor %}
+</section>

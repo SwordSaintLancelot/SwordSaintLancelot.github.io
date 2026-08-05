@@ -109,7 +109,7 @@
         el: el, meta: meta,
         x: (meta.x + jx) / 100 * vw,
         y: (meta.y + jy) / 100 * vh,
-        r: Math.max(w, w * 9 / 16 + 30) / 2 * 0.72
+        r: Math.max(w, w * 9 / 16 + 30) / 2 * 0.78
       };
     });
     // the guide + the space its speech bubble occupies are both no-fly zones
@@ -127,7 +127,7 @@
           var a = obstacles[i], b = obstacles[j];
           var dx = b.x - a.x, dy = b.y - a.y;
           var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          var min = a.r + b.r + 14;
+          var min = a.r + b.r + 24;
           if (dist < min) {
             var push = (min - dist) / 2;
             var ux = dx / dist, uy = dy / dist;

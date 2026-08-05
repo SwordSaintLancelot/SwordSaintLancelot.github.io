@@ -311,6 +311,22 @@ code, pre, kbd, samp {
 }
 .site-nav__links a:hover { color: var(--fg); border-bottom: none; }
 
+/* Portal to the mystic view (The Traveler's Atlas) */
+.site-nav__links a.site-nav__mystic {
+  padding: 0.28rem 0.75rem;
+  border: 1px solid var(--accent, currentColor);
+  border-radius: 999px;
+  color: var(--fg);
+  transition: color var(--transition-fast), background var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+.site-nav__links a.site-nav__mystic:hover {
+  background: var(--accent, #5b5dc3);
+  color: #fff;
+  box-shadow: 0 0 14px rgba(124, 127, 216, 0.45);
+  border-bottom: none;
+}
+
 .site-nav__theme,
 .site-nav__menu-toggle {
   display: inline-flex;

@@ -18,6 +18,8 @@
 # position: base viewport-percentage coords (x → right, y → down), jittered
 # ±2.5% by JS on each load with a minimum-distance rule.
 # size: lg | md | sm      depth: near | mid | far
+# shape: optional 0–4 — picks one of the island silhouettes defined in
+#        templates/index.html; omit to cycle variants automatically.
 # ============================================================================
 
 site:

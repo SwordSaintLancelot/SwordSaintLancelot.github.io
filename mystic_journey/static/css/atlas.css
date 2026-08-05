@@ -166,6 +166,8 @@ body.home { overflow: hidden; height: 100vh; height: 100dvh; }
 .island__art--b0 img, .island__art--b0.island__art--silhouette { clip-path: url(#isle-0); }
 .island__art--b1 img, .island__art--b1.island__art--silhouette { clip-path: url(#isle-1); }
 .island__art--b2 img, .island__art--b2.island__art--silhouette { clip-path: url(#isle-2); }
+.island__art--b3 img, .island__art--b3.island__art--silhouette { clip-path: url(#isle-3); }
+.island__art--b4 img, .island__art--b4.island__art--silhouette { clip-path: url(#isle-4); }
 
 .island--mid .island__art img { filter: saturate(0.75) brightness(0.78); }
 .island--far .island__art img { filter: saturate(0.7) brightness(0.72) blur(1px); }

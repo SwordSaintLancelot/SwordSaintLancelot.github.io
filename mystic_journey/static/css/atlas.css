@@ -247,9 +247,19 @@ body.home { overflow: hidden; height: 100vh; height: 100dvh; }
   pointer-events: none;
 }
 
+/* The soft glow lives on the <picture> so it hugs the CLIPPED outline —
+   filters would otherwise be cut off by the clip-path on the img. */
+.guide picture {
+  display: block;
+  filter: drop-shadow(0 0 22px rgba(120, 90, 220, 0.4));
+}
+
 .guide img {
   width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 0 22px rgba(120, 90, 220, 0.35));
+  clip-path: url(#guide-cut);   /* human silhouette, defined on the homepage */
+  /* the source art ends at the frame's flat bottom — dissolve the robe into space */
+  -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
   animation: guide-drift 9s ease-in-out infinite;
 }
 
